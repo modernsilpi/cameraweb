@@ -74,12 +74,7 @@ function database(id,subcat){
         sek.forEach(up=>{
             console.log(up.data())
         })
-        uniquefeed2(snapp.docs)
-            // var uids = snapp.data().sony;
-            // for (var name of Object.keys(uids)) {
-            //   console.log(name, uids[name]); // key, value
-            // }
-          
+        uniquefeed2(snapp.docs)  
         
     })
 }
