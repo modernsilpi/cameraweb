@@ -28,11 +28,7 @@ unique.innerHTML='';
 
 if(categoryButtons){
   categoryButtons.addEventListener("click", e =>{
-   // console.log("clicked")
     const target=e.target.closest('.camcut')
-    // var pare=this.parentClass();
-    // console.log(pare)
-        // var a = this.value
     if (!target) return;
     const id = target.dataset.id;
      console.log(id)
@@ -42,17 +38,6 @@ if(categoryButtons){
   
   
   } 
-
-
-
-
-
-  
-  
-//   })
-
-
-// }
 function uniquefeed2(data){
   let html='';
   var li;
@@ -194,3 +179,37 @@ var buttons;
 
    
 }
+
+
+//upload files
+// var uploader=document.querySelector('#uploader');
+// var filebutton=document.querySelector('#filebutton');
+// filebutton.addEventListener('change', (e)=>{
+//   var file=e.target.files[0];
+
+//   //crate storage ref
+//   var storageref=storage.ref('photos/' + file.name);
+
+//   //upload file
+//   var task=storageref.put(file);
+
+//   //update progress bar
+//   task.on('state_changed',
+//   function progress(snapshot){
+//     var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+//     uploader.value=percentage;
+//   },
+
+//   function error(err){
+//     console.log(err)
+//   },
+
+// function complete(){
+//   console.log("file uploaded successfully")
+//   task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+//     console.log('File available at', downloadURL);
+//   });
+// }
+//   );
+
+// });

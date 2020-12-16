@@ -44,13 +44,13 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Terms</a>
               </li>
-                
+              <!-- <li class="nav-item">
+                <input type="file" value="upload" id="filebutton" />
+              </li>
+              <progress value="0" max="100" id="uploader">0%</progress> -->
             
           </ul>
-          <!-- <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form> -->
+      
         </div>
       </nav>
 
@@ -59,29 +59,17 @@
           <div class="container">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                  <!-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
+           
                 </ol>
                 <div class="carousel-inner">
-                  <!-- <div class="carousel-item active">
-                    <img class="d-block w-100" src="1.jpg" alt="First slide">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="d-block w-100" src="1.jpg" alt="Second slide">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="d-block w-100" src="1.jpg" alt="Third slide">
-                  </div> -->
+              
                 </div>
               </div>
           </div>
       </section>
 <div class="turnon" >
       <div class="container buttons-container">
-          <!-- <button class="btn btn-dark">Camera</button><button class="btn btn-dark">Lens</button>
-          <button class="btn btn-dark">Accessories</button>
-          <button class="btn btn-dark">Seconds</button> -->
+        
          
        
       </div>
@@ -91,82 +79,7 @@
       <section>
           <div class="container">
               <div class="row unique">
-                  <!-- <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="1.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">500/-</p>
-                  <a href="#" class="btn btn-light">Go somewhere</a>
-                </div>
-              </div>
-          </div> -->
+                  
     </div>
 </div>
       </section>
@@ -188,7 +101,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-storage.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
@@ -210,6 +123,7 @@
   firebase.analytics();
   const auth=firebase.auth();
   const db=firebase.firestore();
+  const storage = firebase.storage();
   db.settings({timestampsInSnapshoots:true})
 </script>
 
