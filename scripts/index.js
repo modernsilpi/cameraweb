@@ -63,7 +63,7 @@ function uniquefeed2(data){
         <div class="card-body">
           <h5 class="card-title">${cam.data().name}</h5>
           <p class="card-text">${cam.data().price}</p>
-          <a href="#" class="btn btn-light">Go somewhere</a>
+          <a href="#" class="btn btn-light rentit" id="${cam.id}">Rent</a>
         </div>
       </div>
   </div>
@@ -73,6 +73,16 @@ function uniquefeed2(data){
 
   // console.log(cam.data().name)
   })
+  const rent =document.querySelectorAll('.rentit');
+rent.forEach(rant=>{
+  rant.addEventListener('click',e=>{
+    console.log("rentedd")
+    var ids =e.target.getAttribute('id')
+    console.log(ids)
+    search(maincategory,ids);
+  })
+})
+
 }
 
 function uniquefeed3(data){
@@ -113,59 +123,7 @@ rent.forEach(rant=>{
   })
 })
 }
-// if(rentstate==true){
 
-// }
-
-function uniquefeed(data){
-   
-    let html='';
-    // console.log(data.data());
-    // let sekhar=data.data();
-   
-            var uids = data.data();
-            for (var name of Object.keys(uids)) {
-              // console.log(name, uids[name]); // key, value
-              for(var name2 of Object.keys(uids[name])){
-                console.log(name2,uids[name][name2])
-            
-              var li;
-              li=`          <div class="col-lg-3 col-md-4 col-sm-6">
-              <div class="card" style="width: 18rem;">
-                  <img class="card-img-top" src="${uids[name][name2].link}" alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">${uids[name][name2].name}</h5>
-                    <p class="card-text">${uids[name][name2].price}</p>
-                    <a href="#" class="btn btn-light">Go somewhere</a>
-                  </div>
-                </div>
-            </div>
-              `
-              html+=li;
-              unique.innerHTML=html
-            }
-          }
-  
-
-  //  for(var i=0;i<3;i++){
-      
-    
-  //       var li;
-  //       li=`          <div class="col-lg-3 col-md-4 col-sm-6">
-  //       <div class="card" style="width: 18rem;">
-  //           <img class="card-img-top" src="{son.link}" alt="Card image cap">
-  //           <div class="card-body">
-  //             <h5 class="card-title">{son.name}</h5>
-  //             <p class="card-text">{son.price}</p>
-  //             <a href="#" class="btn btn-light">Go somewhere</a>
-  //           </div>
-  //         </div>
-  //     </div>
-  //       `
-  //       html+=li;
-  //       unique.innerHTML=html
-  //   }
-}
 function setupguides(data){
     let html='';
     let html2 = '';
@@ -198,19 +156,7 @@ for(var i=0;i<data.length;i++){
 }
 
 function setupguides2(id,data){
-//   const cambut=document.querySelector('.cambut')
-//   let hmtl='';
-//   var ls;
-//   data.forEach(nup=>{
-//     console.log(nup.data())
-  
-//   for (var name of Object.keys(nup.data())) {
-//     console.log(name)
-//     ls=`<a class="dropdown-item" href="#">${name}</a>`;
-//     hmtl+=ls;
-//     cambut.innerHTML=hmtl;
-//   }
-// })
+
   
     let catButtons = '';
 var buttons;
@@ -246,47 +192,5 @@ var buttons;
     })
     }
 
-    // $(".camcut").click( function() {
-    //   console.log("clicked ccamcut");
-    //    this.parents().css("background","red");
-      
-    //   });
-  //   const cambut=document.querySelector(`.cambutlens`)
-  //   let hmtl='';
-  //   var ls;
-  //   data.forEach(nup=>{
-  //     console.log(nup.id)
-  //  if(nup.id=="lens"){
-  //   for (var name of Object.keys(nup.data())) {
-  //     console.log(name)
-  //     ls=`<a class="dropdown-item" href="#">${name}</a>`;
-  //     hmtl+=ls;
-  //     cambut.innerHTML=hmtl;
-  //   }
-  // }
-  
-  // })
+   
 }
-// function load(dat){
-//     const dropout=document.querySelector('.dropmenu')
-//     let catbut='';
-//     var but;
-//     console.log(dat.sub)
-//     let fol=dat.sub
-//     fol.forEach(element => {
-//         console.log(element)
-//         but=`<a class="dropdown-item" href="#">${element}</a>
-//         `;
-//         catbut+=but
-//         dropout.innerHTML=catbut;
-        
-//     });
-
-// }
-
-// const categoryButtons2 = document.querySelectorAll('.dropdown-item');
-// categoryButtons2[0].addEventListener("click",async e=>{
-//   console.log("clicked")
-// })
-
-
