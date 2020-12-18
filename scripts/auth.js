@@ -26,14 +26,15 @@ db.collection('categorybutton').onSnapshot(snap=>{
 
 var pappu=[];
 function search(id1,id2) {
-    // console.log(`id1 is ${id1} id2 is ${id2}`)
+  
     db.collection('categorybutton').doc(id1).onSnapshot(snup=>{
-      //  console.log(snup.data())
+    
    for(var name of Object.keys(snup.data())){
        db.collection('categorybutton').doc(id1).collection(name).onSnapshot(snapp=>{
                snapp.docs.forEach(pan=>{
             if(pan.id==id2){
                 console.log(pan.data());
+                indexcart(pan.data());//cart products at home page
                
             }
             
@@ -45,24 +46,30 @@ function search(id1,id2) {
      
      }
 function database2(id){
-
+    pappu=[];
     db.collection('categorybutton').doc(id).onSnapshot(snap=>{
         console.log(snap)
+        let count=0;
 for (var name of Object.keys(snap.data())) {
+    count=count+1;
+    console.log("object keys",Object.keys(snap.data()).length)
+    console.log(name.length)
     db.collection('categorybutton').doc(id).collection(name).onSnapshot(snapp=>{
        
    pappu.push(snapp.docs)
+   console.log("count ",count)
+   if(count>Object.keys(snap.data()).length)
+   {
+       pappu=[]
+   }
+   if(count==Object.keys(snap.data()).length){
    uniquefeed3(pappu)
-   pappu.pop(snapp.docs)
-//    pappu=[];
+   
+  
+   }
+
     });
-}
-//uniquefeed3(pappu);
-// pappu=[];
-
-
-
-    })
+}    })
  
 }
 
@@ -78,4 +85,34 @@ function database(id,subcat){
         
     })
 }
+
+
+
+const logout=document.querySelector('.logout')
+logout.addEventListener('click', (e)=>{
+    e.preventDefault();
+    var user = firebase.auth().currentUser;
+
+
+if (user != null) {
+    var username, email, photoUrl, uid, emailVerified;
+  //username = user.displayName;
+  //email = user.email;
+ // photoUrl = user.photoURL;
+  //emailVerified = user.emailVerified;
+  uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                   // this value to authenticate with your backend server, if
+                   // you have one. Use User.getToken() instead.
+                   console.log("login uid",uid)
+}
+
+    firebase.auth().signOut().then(function() {
+        console.log("logout successfully");
+      }).catch(function(error) {
+       console.log(`error while logout ${error}`);
+      });
+      
+})
+
+
 

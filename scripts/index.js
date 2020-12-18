@@ -3,7 +3,7 @@ const indicators = document.querySelector('.carousel-indicators');
 const turnon=document.querySelector('.turnon');
 const categoryButtons = document.querySelector('.buttons-container');
 
-const unique=document.querySelector('.unique')
+let unique=document.querySelector('.unique')
 var sendid;
 var rentstate;
 var maincategory;
@@ -39,6 +39,7 @@ if(categoryButtons){
   
   } 
 function uniquefeed2(data){
+  console.log("uniquefeed2")
   let html='';
   var li;
   data.forEach(cam=>{
@@ -56,7 +57,7 @@ function uniquefeed2(data){
     html+=li;
     unique.innerHTML=html
 
-  // console.log(cam.data().name)
+  
   })
   const rent =document.querySelectorAll('.rentit');
 rent.forEach(rant=>{
@@ -72,16 +73,17 @@ rent.forEach(rant=>{
 
 function uniquefeed3(data){
   console.log("feed",data)
-  // unique.innerHTML='';
+  console.log("uniquefeed3")
+ 
   let html='';
   var li;
 data.forEach(nup=>{
   console.log(nup);
 
-  const div = document.createElement('div'); 
-  nup.forEach(cam=>{
+   nup.forEach(cam=>{
+
     console.log("id",cam.id)
-    li=`          <div class="col-lg-3 col-md-4 col-sm-6">
+    li=`   <div class="col-lg-3 col-md-4 col-sm-6">      
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
         <div class="card-body">
@@ -89,19 +91,23 @@ data.forEach(nup=>{
           <p class="card-text">${cam.data().price}</p>
           <a href="#" class="btn btn-light rentit" id="${cam.id}">Rent</a>
         </div>
-      </div>
+        </div>
   </div>
     `
     html+=li;
-    div.innerHTML=html
-    unique.appendChild(div)
+    unique.innerHTML=html
+   // unique.appendChild(div)
   // console.log(cam.data().name)
   })
+  
 })
 const rent =document.querySelectorAll('.rentit');
+const paymentSections = document.querySelector('.payment-sections');
 rent.forEach(rant=>{
   rant.addEventListener('click',e=>{
     console.log("rented")
+    paymentSections.style.display = "block";
+    rant.setAttribute('href', "#payment-sections1");
     var ids =e.target.getAttribute('id')
     console.log(ids)
     search(maincategory,ids);
@@ -179,6 +185,44 @@ var buttons;
 
    
 }
+
+
+function indexcart(cart){
+  const homecart=document.querySelector('.cart-home')
+ // const div = document.createElement('div');
+  let html='';
+  var li;
+  li=`
+  <div >
+  <img src="${cart.link}" alt="">
+</div>
+     <div>
+      <p>
+      ${cart.name}
+      </p>
+     </div>
+    
+     <div class="control">
+      <p class="pl-mi"><span >-</span></p>
+      <span class="count-span">1</span>
+      <p  class="pl-mi"><span>+</span></p>
+    </div>
+
+    <div>
+      <p>${cart.price}</p>
+    </div>
+      
+     <div class="control">
+      <span class="pl-mi">X</span>
+     </div>`;
+     html+=li;
+
+homecart.innerHTML=html;
+}
+
+
+
+
 
 
 //upload files
