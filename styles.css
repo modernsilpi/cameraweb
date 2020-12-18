@@ -40,7 +40,7 @@ header ul li {
 
 .login-form {
     width: 350px;
-    height: 500px;
+    height: 550px;
     margin: 80px 0 0 500px;
     padding: 10px;
     background:  #2a2a2b;
@@ -48,6 +48,7 @@ header ul li {
     z-index: 100;
     transition: 0.4s;
     border-radius: 10px;
+    overflow: auto;
 }
 
 .back-layer {
