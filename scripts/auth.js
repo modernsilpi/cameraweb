@@ -3,10 +3,12 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-contai
 const adharfront=document.querySelector('.adharfront')
 const adharback=document.querySelector('.adharback')
 var mainuser;
+var mainusercond;
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
      console.log("user login")
      mainuser=user
+     mainusercond=1;
     } else {
      console.log("user not login")
     }
@@ -50,7 +52,7 @@ signupsubmit.addEventListener('click',(e)=>{
       
         
          const signinlocation=document.querySelector('.signinlocation')
-         db.collection('users').doc(user.uid).set({
+         db.collection('users').doc(user.uid).collection('profile').doc(user.uid).set({
              name:signinname.value,
              phone:phonenumber,
              location:signinlocation.value,
@@ -197,16 +199,23 @@ db.collection('categorybutton').onSnapshot(snap=>{
 })
 
 var pappu=[];
-function search(id1,id2) {
+function search(maincate,id2) {
   
-    db.collection('categorybutton').doc(id1).onSnapshot(snup=>{
+    db.collection('categorybutton').doc(maincate).onSnapshot(snup=>{
     
    for(var name of Object.keys(snup.data())){
-       db.collection('categorybutton').doc(id1).collection(name).onSnapshot(snapp=>{
+       db.collection('categorybutton').doc(maincate).collection(name).onSnapshot(snapp=>{
                snapp.docs.forEach(pan=>{
             if(pan.id==id2){
                 console.log(pan.data());
-                indexcart(pan.data());//cart products at home page
+              //  indexcart(pan);//cart products at home page
+              db.collection('users').doc(mainuser.uid).collection('cart').doc(pan.id).set({
+                name:pan.data().name,
+                price:pan.data().price,
+                qty:1,
+                link:pan.data().link
+              })
+              
                
             }
             
@@ -217,6 +226,39 @@ function search(id1,id2) {
     })
      
      }
+
+
+function removecart(id){
+  db.collection('users').doc(mainuser.uid).collection('cart').doc(id).delete()
+}
+
+
+
+
+
+     //adding cart item id to user cart firestore
+     function search2(id){
+
+    //  const  arrayUnion = firebase.firestore.FieldValue.arrayUnion;//append value to array using this 
+       db.collection('users').doc(mainuser.uid).collection('cart').doc(id).set({
+       productid:id,qty:1
+       }).then(function(){
+         console.log("added to user cart")
+       
+       }).catch(err=>{console.log(err)}
+       )
+     }
+
+//retrive user cart details
+function usercart(){
+  db.collection('users').doc(mainuser.uid).collection('cart').onSnapshot(snap=>{
+    snap.docs.forEach(nap=>{
+      console.log(nap.id)
+    })
+  })
+}
+
+
 function database2(id){
     pappu=[];
     db.collection('categorybutton').doc(id).onSnapshot(snap=>{
@@ -286,6 +328,15 @@ if (user != null) {
       });
       
 })
+
+
+// db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
+//   pap.docs.forEach(cap=>{
+//     indexcart(cap);
+//     console.log("mainusercond",cap)
+//   })
+// })
+
 
 
 

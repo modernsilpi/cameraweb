@@ -38,7 +38,7 @@ if(categoryButtons){
   
   
   } 
-function uniquefeed2(data){
+function uniquefeed2(data){ //only subcategory function here
   console.log("uniquefeed2")
   let html='';
   var li;
@@ -49,7 +49,7 @@ function uniquefeed2(data){
         <div class="card-body">
           <h5 class="card-title">${cam.data().name}</h5>
           <p class="card-text">${cam.data().price}</p>
-          <a href="#" class="btn btn-light rentit" id="${cam.id}">Rent</a>
+          <a href="#" class="btn btn-light rentit" id="${cam.id}">Rentt</a>
         </div>
       </div>
   </div>
@@ -60,18 +60,27 @@ function uniquefeed2(data){
   
   })
   const rent =document.querySelectorAll('.rentit');
-rent.forEach(rant=>{
-  rant.addEventListener('click',e=>{
-    console.log("rentedd")
-    var ids =e.target.getAttribute('id')
-    console.log(ids)
-    search(maincategory,ids);
+  const paymentSections = document.querySelector('.payment-sections');
+  rent.forEach(rant=>{
+    rant.addEventListener('click',e=>{
+      console.log("rented")
+      paymentSections.style.display = "block";
+      rant.setAttribute('href', "#payment-sections1");
+      var ids =e.target.getAttribute('id')
+      console.log(ids)
+    //  search2(ids)// this is for add product to user cart db
+      usercart();
+      search(maincategory,ids);
+    
+    })
   })
-})
+  $(".rentit").on("click",function(){
+    console.log("renteddd")
+  });
 
 }
 
-function uniquefeed3(data){
+function uniquefeed3(data){ // this function for append all products including subcategories
   console.log("feed",data)
   console.log("uniquefeed3")
  
@@ -110,7 +119,10 @@ rent.forEach(rant=>{
     rant.setAttribute('href', "#payment-sections1");
     var ids =e.target.getAttribute('id')
     console.log(ids)
+  //  search2(ids)// this is for add product to user cart db
+    usercart();
     search(maincategory,ids);
+  
   })
 })
 }
@@ -187,12 +199,16 @@ var buttons;
    
 }
 
+const homecart=document.querySelector('.cart-table')
 
-function indexcart(cart){
-  const homecart=document.querySelector('.cart-home')
- // const div = document.createElement('div');
+function indexcart(cartt){
+  const div = document.createElement('div');
+  var cart=cartt.data()
+  console.log(cartt.id)
+
   let html='';
   var li;
+  div.setAttribute('id', cartt.id);
   li=`
   <div >
   <img src="${cart.link}" alt="">
@@ -214,12 +230,57 @@ function indexcart(cart){
     </div>
       
      <div class="control">
-      <span class="pl-mi">X</span>
-     </div>`;
+      <span class="pl-mi removecart" id="${cartt.id}">X</span>
+     </div><br>`;
      html+=li;
 
-homecart.innerHTML=html;
+    //  remove.addEventListener("click", function() {
+    //    homecart.remove(div);
+    //  })
+
+div.innerHTML=html;
+homecart.append(div)
+
+const remove = document.querySelectorAll(".removecart");
+remove.forEach(removee=>{
+  removee.addEventListener('click', (e)=> {
+    //  e.stopPropagation();
+    let id = e.target.parentElement.parentElement.getAttribute('id');
+    console.log(id)
+    console.log("remove btn clicked");
+    removecart(id)
+      })
+})
+
 }
+
+
+
+
+db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
+  // pap.docs.forEach(cap=>{
+  //   indexcart(cap);
+  //   console.log("mainusercond",cap)
+  // })
+  let changes=pap.docChanges();
+  changes.forEach(change => {
+      if(change.type=='added'){
+          indexcart(change.doc);
+      } else if(change.type=='removed'){
+          let div=homecart.querySelector('[id=' + change.doc.id + ']');
+          homecart.removeChild(div);
+      } else if(change.type=='modified'){
+          let div=homecart.querySelector('[id=' + change.doc.id + ']');
+          homecart.removeChild(div);
+          indexcart(change.doc);
+      }
+     
+  })
+})
+
+
+
+
 
 
 
