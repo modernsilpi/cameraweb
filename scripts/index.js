@@ -210,7 +210,7 @@ function indexcart(cart){
     </div>
 
     <div>
-      <p>${cart.price}</p>
+      <p>&#8377; ${cart.price}</p>
     </div>
       
      <div class="control">

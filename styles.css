@@ -18,12 +18,12 @@ header {
 
 header ul a:hover{
     text-decoration: none;
-    color: white;
+    color: rgb(207, 206, 206);
     transition: 0.3s;
 }
 
 header ul a {
-    color: white;
+    color: rgb(90, 89, 89);
 }
 
 header ul {
@@ -51,7 +51,7 @@ header ul li {
     overflow: auto;
 }
 
-.back-layer {
+.back-layer, .back-layer1 {
     z-index: 99;
     background: rgba(218, 218, 218, 0.925);
     margin-top: -600px;
@@ -190,7 +190,7 @@ nav {
 /*cart table*/
 
 .cart-table {
-   margin: 0 14%;
+   margin: 0 10%;
 }
 
 .cart-table div{
@@ -218,13 +218,9 @@ nav {
     color: white;
 }
 
-.cart-table .control:hover {
-    color: rgb(190, 189, 189);
-    transition: all 0.4s;
-}
-
 .cart-table .control .count-span {
     width: 50px;
+    color: black;
 }
 
 .cart-table .control .pl-mi {
@@ -237,6 +233,8 @@ nav {
 
 .cart-table .control .pl-mi:hover {
     background: rgb(53, 53, 53);
+    color: rgb(190, 189, 189);
+    transition: all 0.4s
 }
 
 /*rules*/
@@ -254,7 +252,7 @@ nav {
 
 /*payment*/
 
-.payment {
+/* .payment {
     margin: 50px auto;
 }
 
@@ -275,7 +273,7 @@ nav {
 .form-cvv .form-group input, .form-cvv .form-group label {
     width: 100px;
     /*margin-left: 30px;*/
-}
+/* }
 
 .form-cvv .f-g1 input, .form-cvv .f-g1 label {
     margin-left: 30px;
@@ -284,9 +282,25 @@ nav {
 
 .form-cvv {
     display: inline-flex;
-}
+} */ 
 
 .payment-sections {
+    display: none;
+    margin: 50px;
+    border-radius: 10px;
+    border: 1px solid rgb(194, 193, 193);
+    box-shadow: 1px 1px 10px rgb(173, 173, 173);
+
+}
+
+.cart-heading {
+    margin-top: 50px;
+}
+
+/*date selector*/
+
+.app {
+    position: fixed;
     display: none;
 }
 
