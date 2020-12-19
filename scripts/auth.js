@@ -1,6 +1,178 @@
-// let cButtons = ["cameras", "lens", "accessories", "seconds"];
 
-var logicc=0;
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+const adharfront=document.querySelector('.adharfront')
+const adharback=document.querySelector('.adharback')
+var mainuser;
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+     console.log("user login")
+     mainuser=user
+    } else {
+     console.log("user not login")
+    }
+  });
+
+//signup
+generateotp=document.querySelector('.generateotp');
+generateotp.addEventListener('click', (e)=>{
+    const numm="+91" + document.querySelector('.phonenumber').value;
+    console.log(numm);
+  firebase.auth().signInWithPhoneNumber(numm,window.recaptchaVerifier) 
+  .then(function(confirmationResult) {
+    window.confirmationResult = confirmationResult;
+    console.log(confirmationResult);
+  });
+})
+var phonenumber;
+signupsubmit=document.querySelector('.signupsubmit')
+verifyotp=document.querySelector('.verifyotp');
+verifyotp.addEventListener('click',(e)=>{
+    console.log(document.querySelector('.verificationcode').value);
+   
+    window.confirmationResult.confirm(document.querySelector(".verificationcode").value)
+    .then(function(result) {
+        //add user data to db
+        phonenumber=document.querySelector('.phonenumber').value;
+      console.log(result);
+    }).catch(function(error) {
+      console.log(error);
+    });
+})
+
+
+
+
+signupsubmit.addEventListener('click',(e)=>{
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+         console.log("user login")
+         const signinname=document.querySelector('.signinname')
+      
+        
+         const signinlocation=document.querySelector('.signinlocation')
+         db.collection('users').doc(user.uid).set({
+             name:signinname.value,
+             phone:phonenumber,
+             location:signinlocation.value,
+             adharfront:adharcardf,
+             adharback:adharcardb,
+             array:[1,2,"sekhar","1","24"]
+         }).then(function(){ 
+      
+          })
+          .catch(function(err){
+              console.log(err)
+          })
+        } else {
+         console.log("user not login")
+        }
+      })
+  
+ 
+
+    
+})
+var adharcardf;
+var adharcardb;
+//adhar back
+adharback.addEventListener('change',(e)=>{
+    var file=e.target.files[0];
+    console.log("adhar click")
+    uploaderb=document.querySelector('#uploaderb');
+   // crate storage ref
+  var storageref=storage.ref(`users/${mainuser.uid}/profile/` + file.name);
+
+     //upload file
+   var task=storageref.put(file);
+
+      //update progress bar
+  task.on('state_changed',
+  function progress(snapshot){
+    var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+    uploaderb.value=percentage;
+  },
+    function error(err){
+    console.log(err)
+  },
+  function complete(){
+  console.log("adhar back uploaded successfully ")
+  task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    console.log('File available at', downloadURL);
+    adharcardb=downloadURL
+  });
+}
+  );
+
+})
+
+//adhar front
+adharfront.addEventListener('change',(e)=>{
+    var file=e.target.files[0];
+    console.log("adhar click")
+    uploaderf=document.querySelector('#uploaderf');
+   // crate storage ref
+  var storageref=storage.ref(`users/${mainuser.uid}/profile/` + file.name);
+
+     //upload file
+   var task=storageref.put(file);
+
+      //update progress bar
+  task.on('state_changed',
+  function progress(snapshot){
+    var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+    uploaderf.value=percentage;
+  },
+    function error(err){
+    console.log(err)
+  },
+  function complete(){
+  console.log("adhar front uploaded successfully")
+  task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    console.log('File available at', downloadURL);
+    adharcardf=downloadURL
+  });
+}
+  );
+
+})
+
+//upload files
+// var uploader=document.querySelector('#uploader');
+// var filebutton=document.querySelector('#filebutton');
+// filebutton.addEventListener('change', (e)=>{
+//   var file=e.target.files[0];
+
+//   //crate storage ref
+//   var storageref=storage.ref('photos/' + file.name);
+
+//   //upload file
+//   var task=storageref.put(file);
+
+//   //update progress bar
+//   task.on('state_changed',
+//   function progress(snapshot){
+//     var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+//     uploader.value=percentage;
+//   },
+
+//   function error(err){
+//     console.log(err)
+//   },
+
+// function complete(){
+//   console.log("file uploaded successfully")
+//   task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+//     console.log('File available at', downloadURL);
+//   });
+// }
+//   );
+
+// });
+
+
+
+
+
 // setupguides();
 db.collection('homesliders').onSnapshot(snapshot=>{
     console.log(snapshot.docs)
@@ -117,3 +289,35 @@ if (user != null) {
 
 
 
+//upload files
+// var uploader=document.querySelector('#uploader');
+// var filebutton=document.querySelector('#filebutton');
+// filebutton.addEventListener('change', (e)=>{
+//   var file=e.target.files[0];
+
+//   //crate storage ref
+//   var storageref=storage.ref('photos/' + file.name);
+
+//   //upload file
+//   var task=storageref.put(file);
+
+//   //update progress bar
+//   task.on('state_changed',
+//   function progress(snapshot){
+//     var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+//     uploader.value=percentage;
+//   },
+
+//   function error(err){
+//     console.log(err)
+//   },
+
+// function complete(){
+//   console.log("file uploaded successfully")
+//   task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+//     console.log('File available at', downloadURL);
+//   });
+// }
+//   );
+
+// });

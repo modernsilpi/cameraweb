@@ -159,7 +159,7 @@ var buttons;
         </div></div>
         `
     
-        
+
 
     catButtons += buttons;
   //  console.log(buttons)
@@ -225,36 +225,3 @@ homecart.innerHTML=html;
 
 
 
-
-//upload files
-// var uploader=document.querySelector('#uploader');
-// var filebutton=document.querySelector('#filebutton');
-// filebutton.addEventListener('change', (e)=>{
-//   var file=e.target.files[0];
-
-//   //crate storage ref
-//   var storageref=storage.ref('photos/' + file.name);
-
-//   //upload file
-//   var task=storageref.put(file);
-
-//   //update progress bar
-//   task.on('state_changed',
-//   function progress(snapshot){
-//     var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
-//     uploader.value=percentage;
-//   },
-
-//   function error(err){
-//     console.log(err)
-//   },
-
-// function complete(){
-//   console.log("file uploaded successfully")
-//   task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-//     console.log('File available at', downloadURL);
-//   });
-// }
-//   );
-
-// });

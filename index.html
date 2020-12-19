@@ -112,30 +112,10 @@
     <form>
       
       <div class="form-group">
-        <label for="exampleInputEmail1">Name</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
-        <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
-      </div>
-      <div id="recaptcha-container"></div>
-
-      <div class="form-group">
-        <label for="exampleInputPassword1">Upload your aadhaar for address proof</label>
-        <input type="file" class="form-control" id="exampleInputPassword1" placeholder="front" required>
-        <progress value="0" max="100" id="uploader">0%</progress>
-        <input type="file" class="form-control" id="exampleInputPassword1" placeholder="back" required>
-        <progress value="0" max="100" id="uploader">0%</progress>
-
-      </div>
-
-      <div class="form-group location">
-        <label for="exampleInputPassword1">Location</label>
-        <input type="text" class="form-control" id="exampleInputPassword" placeholder="Enter your location" required>
-      </div>
-
         <div class="form-group">
           <label for="exampleInputPassword1">Phone number</label>
           <input type="text" class="form-control phonenumber " id="exampleInputPassword" placeholder="Your phone number" required>
-          <button type="button" class="btn btn-light" onclick="otplogin()">Send OTP</button>
+          <button type="button" class="btn btn-light generateotp" >Send OTP</button>
         </div>
        
        
@@ -143,12 +123,35 @@
           <label for="exampleInputPassword1">Validation</label>
           <input type="password" class="form-control verificationcode" id="exampleInputPassword1" placeholder="Enter your otp here" required>
         </div>
+        <button type="button" class="btn btn-light verifyotp" >Submit</button>
+        <label for="exampleInputEmail1">Name</label>
+        <input type="text" class="form-control signinname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+      </div>
+      <div id="recaptcha-container"></div>
+
+      <div class="form-group">
+        <label for="adharfront">Upload your aadhaar for address proof</label>
+        <input type="file" class="form-control adharfront" id="adharfront"  placeholder="front" required>
+        <progress value="0" max="100" id="uploaderf">0%</progress>
+        <label for="adharback">Upload your aadhaar for address proof</label>
+        <input type="file" class="form-control adharback" id="adharback" placeholder="back" required>
+        <progress value="0" max="100" id="uploaderb">0%</progress>
+
+      </div>
+
+      <div class="form-group location">
+        <label for="exampleInputPassword1">Location</label>
+        <input type="text" class="form-control signinlocation"  placeholder="Enter your location" required>
+      </div>
+
+      
      
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
-      <button type="button" class="btn btn-light" onclick="myFunction()">Submit</button>
+      <button type="button" class="btn btn-light signupsubmit" >Submit</button>
     </form>
   </section>
        
@@ -348,7 +351,7 @@
 
 
 <!-- otp login -->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
   function otplogin(){ 
     const numm="+91" + document.querySelector('.phonenumber').value;
@@ -368,6 +371,6 @@
       console.log(error);
     });
   };
-  </script>
+  </script> -->
 </body>
 </html>
