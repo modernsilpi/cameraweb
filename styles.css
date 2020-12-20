@@ -198,6 +198,10 @@ nav {
     margin: 50px auto;
     border: 1px solid rgba(180, 180, 180, 0.973);
 }
+.cart-total{
+    text-align: center;
+    font-weight: bold;
+}
 
 .cart-table div div {
     margin:0;

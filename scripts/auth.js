@@ -250,14 +250,25 @@ function removecart(id){
      }
 
 //retrive user cart details
-function usercart(){
-  db.collection('users').doc(mainuser.uid).collection('cart').onSnapshot(snap=>{
-    snap.docs.forEach(nap=>{
-      console.log(nap.id)
-    })
+// function usercart(){
+//   db.collection('users').doc(mainuser.uid).collection('cart').onSnapshot(snap=>{
+//     snap.docs.forEach(nap=>{
+//       console.log(nap.id)
+//     })
+//   })
+// }
+
+function increaseqtydb(id){//increase cart qty in db
+  db.collection('users').doc(mainuser.uid).collection('cart').doc(id).update({
+    qty:firebase.firestore.FieldValue.increment(1)
   })
 }
 
+function decreasedb(id){//decrease qty cart in db
+  db.collection('users').doc(mainuser.uid).collection('cart').doc(id).update({
+    qty:firebase.firestore.FieldValue.increment(-1)
+  })
+}
 
 function database2(id){
     pappu=[];
@@ -300,7 +311,11 @@ function database(id,subcat){
     })
 }
 
-
+const loginbut=document.querySelector('.loginbut');
+loginbut.addEventListener('click',(e)=>{
+  console.log("login clicked")
+  document.querySelector('.back-layer').style.display="block";
+})
 
 
 const logout=document.querySelector('.logout')

@@ -63,13 +63,14 @@ function uniquefeed2(data){ //only subcategory function here
   const paymentSections = document.querySelector('.payment-sections');
   rent.forEach(rant=>{
     rant.addEventListener('click',e=>{
+      cartprice=0;
       console.log("rented")
       paymentSections.style.display = "block";
-      rant.setAttribute('href', "#payment-sections1");
+    //  rant.setAttribute('href', "#payment-sections1");
       var ids =e.target.getAttribute('id')
       console.log(ids)
     //  search2(ids)// this is for add product to user cart db
-      usercart();
+      // usercart();
       search(maincategory,ids);
     
     })
@@ -114,13 +115,14 @@ const rent =document.querySelectorAll('.rentit');
 const paymentSections = document.querySelector('.payment-sections');
 rent.forEach(rant=>{
   rant.addEventListener('click',e=>{
+    cartprice=0;
     console.log("rented")
     paymentSections.style.display = "block";
     rant.setAttribute('href', "#payment-sections1");
     var ids =e.target.getAttribute('id')
     console.log(ids)
   //  search2(ids)// this is for add product to user cart db
-    usercart();
+  //  usercart();
     search(maincategory,ids);
   
   })
@@ -200,15 +202,16 @@ var buttons;
 }
 
 const homecart=document.querySelector('.cart-table')
-
+const carttotal=document.querySelector('.cart-total')
 function indexcart(cartt){
   const div = document.createElement('div');
   var cart=cartt.data()
   console.log(cartt.id)
-
+  
   let html='';
   var li;
   div.setAttribute('id', cartt.id);
+  let totalcost=cart.price*cart.qty;
   li=`
   <div >
   <img src="${cart.link}" alt="">
@@ -220,48 +223,64 @@ function indexcart(cartt){
      </div>
     
      <div class="control">
-      <p class="pl-mi"><span >-</span></p>
-      <span class="count-span">1</span>
-      <p  class="pl-mi"><span>+</span></p>
+      <p class="cart-quantity decreaseqty" id="d${cartt.id}"><button >-</button></p>
+      <span class="count-span">${cart.qty}</span>
+      <p  class="cart-quantity increaseqty" id="i${cartt.id}"><button>+</button></p>
     </div>
 
     <div>
-      <p>${cart.price}</p>
+      <p>${cart.price}x${cart.qty}=${totalcost}</p>
     </div>
       
      <div class="control">
-      <span class="pl-mi removecart" id="${cartt.id}">X</span>
+      <span class="pl-mi removecart" id="r${cartt.id}">X</span>
      </div><br>`;
      html+=li;
 
-    //  remove.addEventListener("click", function() {
-    //    homecart.remove(div);
-    //  })
-
+    
 div.innerHTML=html;
 homecart.append(div)
 
-const remove = document.querySelectorAll(".removecart");
-remove.forEach(removee=>{
-  removee.addEventListener('click', (e)=> {
-    //  e.stopPropagation();
+
+
+//increase qty in cart
+const increaseqty=document.querySelector(`#i${cartt.id}`)
+increaseqty.addEventListener('click',e=>{
+  let id = e.target.parentElement.parentElement.parentElement.getAttribute('id');
+  console.log("increased",id)
+  increaseqtydb(id);
+  cartprice=0;
+})
+
+//decrease qty in cart
+const decreaseqty=document.querySelector(`#d${cartt.id}`)
+decreaseqty.addEventListener('click',e=>{
+  let id = e.target.parentElement.parentElement.parentElement.getAttribute('id');
+  console.log("decrease",id)
+  decreasedb(id);
+  cartprice=0;
+})
+
+//remove item in cart
+const remove=document.querySelector(`#r${cartt.id}`)
+remove.addEventListener('click',e=>{
     let id = e.target.parentElement.parentElement.getAttribute('id');
     console.log(id)
     console.log("remove btn clicked");
     removecart(id)
-      })
+    cartprice=0;
 })
+
+
 
 }
 
 
 
 
+
+
 db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
-  // pap.docs.forEach(cap=>{
-  //   indexcart(cap);
-  //   console.log("mainusercond",cap)
-  // })
   let changes=pap.docChanges();
   changes.forEach(change => {
       if(change.type=='added'){
@@ -278,8 +297,24 @@ db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').on
   })
 })
 
+var cartprice=0;
+//total cart price is here
+db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
+
+pap.docs.forEach(cap=>{
+
+  cartprice=cartprice+(cap.data().qty*cap.data().price)
+
+})
+console.log('cart price',cartprice)
+var li2;
+li2=`
+<p>totalcart ${cartprice}</p>
+`;
+carttotal.innerHTML=li2;
 
 
+})
 
 
 
