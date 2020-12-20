@@ -193,9 +193,13 @@ nav {
    margin: 0 10%;
 }
 
+.cart-heading, .booking-heading {
+    margin: 50px auto;
+}
+
 .cart-table div{
     display: inline-flex;
-    margin: 50px auto;
+    margin: 0 auto;
     border: 1px solid rgba(180, 180, 180, 0.973);
 }
 
