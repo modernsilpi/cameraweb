@@ -1,3 +1,77 @@
+var mainuser;
+var mainusercond=0;
+const loginli=document.querySelector('.loginli');
+const registerli=document.querySelector('.registerli');
+const logoutli=document.querySelector('.logoutli');
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+     console.log("user login")
+     
+     //visible only logout when user logged in
+     loginli.style.display="none";
+     registerli.style.display="none";
+     logoutli.style.display="block";
+     mainuser=user
+     mainusercond=1;
+    } else {
+     console.log("user not login")
+     //visiable register and login button when user not login 
+     loginli.style.display="block";
+     registerli.style.display="block";
+     logoutli.style.display="none";
+    }
+  });
+
+  //show registration form when clicked on "register"
+  const register=document.querySelector('.register');
+  register.addEventListener('click',(e)=>{
+    console.log("register clicked")
+    document.querySelector('.back-layer').style.display="block";
+  })
+
+  //show login form when clicked on "login"
+  const loginbut=document.querySelector('.loginbut');
+  loginbut.addEventListener('click',(e)=>{
+    console.log("login clicked")
+    document.querySelector('.back-layer2').style.display="block";
+  })
+
+  //show shopping cart when clicked on "cart"
+  const logincart=document.querySelector('.usercart')
+  logincart.addEventListener('click',(e)=>{
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+       document.querySelector('.payment-sections').style.display="block";
+      //  db.collection('users').doc(user.uid).collection('cart').onSnapshot(pap=>{
+      //   let changes=pap.docChanges();
+      //   changes.forEach(change => {
+      //       if(change.type=='added'){
+      //           indexcart(change.doc);
+      //       } else if(change.type=='removed'){
+      //           let div=homecart.querySelector('[id=' + change.doc.id + ']');
+      //           homecart.removeChild(div);
+      //       } else if(change.type=='modified'){
+      //           let div=homecart.querySelector('[id=' + change.doc.id + ']');
+      //           homecart.removeChild(div);
+      //           indexcart(change.doc);
+      //       }
+           
+      //   })
+      // })
+
+
+       
+      } else {
+       console.log("user not login")
+       alert("please login or register to view cart")
+
+      }
+    });
+  
+
+  })
+
 const block=document.querySelector('.carousel-inner');
 const indicators = document.querySelector('.carousel-indicators');
 const turnon=document.querySelector('.turnon');
@@ -60,19 +134,20 @@ function uniquefeed2(data){ //only subcategory function here
   
   })
   const rent =document.querySelectorAll('.rentit');
-  const paymentSections = document.querySelector('.payment-sections');
+ // const paymentSections = document.querySelector('.payment-sections');
   rent.forEach(rant=>{
     rant.addEventListener('click',e=>{
       cartprice=0;
       console.log("rented")
-      paymentSections.style.display = "block";
+    //  paymentSections.style.display = "block";
     //  rant.setAttribute('href', "#payment-sections1");
+    document.querySelector('.payment-sections').style.display="block";
       var ids =e.target.getAttribute('id')
       console.log(ids)
     //  search2(ids)// this is for add product to user cart db
       // usercart();
-      search(maincategory,ids);
-    
+    //  search(maincategory,ids);
+    advancedsearch(ids)
     })
   })
   $(".rentit").on("click",function(){
@@ -112,19 +187,20 @@ data.forEach(nup=>{
   
 })
 const rent =document.querySelectorAll('.rentit');
-const paymentSections = document.querySelector('.payment-sections');
+//const paymentSections = document.querySelector('.payment-sections');
 rent.forEach(rant=>{
   rant.addEventListener('click',e=>{
     cartprice=0;
     console.log("rented")
-    paymentSections.style.display = "block";
+  //  paymentSections.style.display = "block";
     rant.setAttribute('href', "#payment-sections1");
+    document.querySelector('.payment-sections').style.display="block";
     var ids =e.target.getAttribute('id')
     console.log(ids)
   //  search2(ids)// this is for add product to user cart db
   //  usercart();
-    search(maincategory,ids);
-  
+   // search(maincategory,ids);
+   advancedsearch(ids);
   })
 })
 }
@@ -277,44 +353,51 @@ remove.addEventListener('click',e=>{
 
 
 
+//4ONMfVmuZUhfIHY87DcwmmA3A3c2
 
-
-
-db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
-  let changes=pap.docChanges();
-  changes.forEach(change => {
-      if(change.type=='added'){
-          indexcart(change.doc);
-      } else if(change.type=='removed'){
-          let div=homecart.querySelector('[id=' + change.doc.id + ']');
-          homecart.removeChild(div);
-      } else if(change.type=='modified'){
-          let div=homecart.querySelector('[id=' + change.doc.id + ']');
-          homecart.removeChild(div);
-          indexcart(change.doc);
-      }
+// db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(pap=>{
+//   let changes=pap.docChanges();
+//   changes.forEach(change => {
+//       if(change.type=='added'){
+//           indexcart(change.doc);
+//       } else if(change.type=='removed'){
+//           let div=homecart.querySelector('[id=' + change.doc.id + ']');
+//           homecart.removeChild(div);
+//       } else if(change.type=='modified'){
+//           let div=homecart.querySelector('[id=' + change.doc.id + ']');
+//           homecart.removeChild(div);
+//           indexcart(change.doc);
+//       }
      
-  })
-})
+//   })
+// })
+
 
 var cartprice=0;
 //total cart price is here
-db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+  db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(pap=>{
 
-pap.docs.forEach(cap=>{
+    pap.docs.forEach(cap=>{
+    
+      cartprice=cartprice+(cap.data().qty*cap.data().price)
+    
+    })
+    console.log('cart price',cartprice)
+    var li2;
+    li2=`
+    <p>totalcart ${cartprice}</p>
+    `;
+    carttotal.innerHTML=li2;
+    
+    
+    })
+  }
+}
+)
 
-  cartprice=cartprice+(cap.data().qty*cap.data().price)
 
-})
-console.log('cart price',cartprice)
-var li2;
-li2=`
-<p>totalcart ${cartprice}</p>
-`;
-carttotal.innerHTML=li2;
-
-
-})
 
 
 

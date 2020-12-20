@@ -1,5 +1,6 @@
 
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+window.lrecaptchaVerifier = new firebase.auth.RecaptchaVerifier('lrecaptcha-container');
 const adharfront=document.querySelector('.adharfront')
 const adharback=document.querySelector('.adharback')
 var mainuser;
@@ -15,7 +16,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   });
 
 //signup
-generateotp=document.querySelector('.generateotp');
+const generateotp=document.querySelector('.generateotp');
 generateotp.addEventListener('click', (e)=>{
     const numm="+91" + document.querySelector('.phonenumber').value;
     console.log(numm);
@@ -41,7 +42,30 @@ verifyotp.addEventListener('click',(e)=>{
     });
 })
 
-
+//login
+const lgenerateotp=document.querySelector('.lgenerateotp');
+lgenerateotp.addEventListener('click', (e)=>{
+    const numm="+91" + document.querySelector('.lphonenumber').value;
+    console.log(numm);
+  firebase.auth().signInWithPhoneNumber(numm,window.lrecaptchaVerifier) 
+  .then(function(lconfirmationResult) {
+    window.lconfirmationResult = lconfirmationResult;
+    console.log(lconfirmationResult);
+  });
+})
+lverifyotp=document.querySelector('.lverifyotp');
+lverifyotp.addEventListener('click',(e)=>{
+    console.log(document.querySelector('.lverificationcode').value);
+   
+    window.lconfirmationResult.confirm(document.querySelector(".lverificationcode").value)
+    .then(function(result) {
+        //add user data to db
+        phonenumber=document.querySelector('.lphonenumber').value;
+      console.log(result);
+    }).catch(function(error) {
+      console.log(error);
+    });
+})
 
 
 signupsubmit.addEventListener('click',(e)=>{
@@ -199,34 +223,60 @@ db.collection('categorybutton').onSnapshot(snap=>{
 })
 
 var pappu=[];
-function search(maincate,id2) {
+// function search(maincate,id2) {
   
-    db.collection('categorybutton').doc(maincate).onSnapshot(snup=>{
+//     db.collection('categorybutton').doc(maincate).onSnapshot(snup=>{
     
-   for(var name of Object.keys(snup.data())){
-       db.collection('categorybutton').doc(maincate).collection(name).onSnapshot(snapp=>{
-               snapp.docs.forEach(pan=>{
-            if(pan.id==id2){
-                console.log(pan.data());
-              //  indexcart(pan);//cart products at home page
-              db.collection('users').doc(mainuser.uid).collection('cart').doc(pan.id).set({
-                name:pan.data().name,
-                price:pan.data().price,
-                qty:1,
-                link:pan.data().link
-              })
+//    for(var name of Object.keys(snup.data())){
+//        db.collection('categorybutton').doc(maincate).collection(name).onSnapshot(snapp=>{
+//                snapp.docs.forEach(pan=>{
+//             if(pan.id==id2){
+//                 console.log(pan.data());
+//               //  indexcart(pan);//cart products at home page
+//               db.collection('users').doc(mainuser.uid).collection('cart').doc(pan.id).set({
+//                 name:pan.data().name,
+//                 price:pan.data().price,
+//                 qty:1,
+//                 link:pan.data().link
+//               })
               
                
-            }
+//             }
             
             
-        })
-       })
-   }
-    })
+//         })
+//        })
+//    }
+//     })
      
-     }
+//      }
 
+function advancedsearch(productid){
+  db.collection('categorybutton').onSnapshot(id=>{
+    id.docs.forEach(id2=>{
+      for (var name of Object.keys(id2.data())) {
+     //   count=count+1;
+        console.log("object keys",Object.keys(id2.data()).length)
+        console.log("path",id2.id,name)
+        db.collection('categorybutton').doc(id2.id).collection(name).onSnapshot(snapp=>{
+         snapp.docs.forEach(pan=>{
+           if(pan.id==productid){
+             console.log('your product details',pan.data())
+             db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(pan.id).set({
+              name:pan.data().name,
+              price:pan.data().price,
+              qty:1,
+              link:pan.data().link
+            })
+           }
+         })
+    
+        });
+    }
+    })
+  })
+
+}
 
 function removecart(id){
   db.collection('users').doc(mainuser.uid).collection('cart').doc(id).delete()
@@ -298,6 +348,36 @@ for (var name of Object.keys(snap.data())) {
  
 }
 
+
+
+
+//this function append all product in home page
+var kappu=[];
+db.collection('categorybutton').onSnapshot(id=>{
+  id.docs.forEach(id2=>{
+    for (var name of Object.keys(id2.data())) {
+   //   count=count+1;
+      console.log("object keys",Object.keys(id2.data()).length)
+      console.log("path",id2.id,name)
+      db.collection('categorybutton').doc(id2.id).collection(name).onSnapshot(snapp=>{
+         kappu.push(snapp.docs);
+         uniquefeed3(kappu)
+    //  snapp.docs.forEach(id3=>{
+    //    console.log(id3.data());
+    //  })
+    
+  
+      });
+  }
+  })
+})
+
+
+
+
+
+
+
 function database(id,subcat){
     console.log("databse id is",id)
     db.collection('categorybutton').doc(id).collection(subcat).onSnapshot(snapp=>{
@@ -311,11 +391,7 @@ function database(id,subcat){
     })
 }
 
-const loginbut=document.querySelector('.loginbut');
-loginbut.addEventListener('click',(e)=>{
-  console.log("login clicked")
-  document.querySelector('.back-layer').style.display="block";
-})
+
 
 
 const logout=document.querySelector('.logout')
@@ -387,3 +463,24 @@ if (user != null) {
 //   );
 
 // });
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+
+db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(pap=>{
+  let changes=pap.docChanges();
+  changes.forEach(change => {
+      if(change.type=='added'){
+          indexcart(change.doc);
+      } else if(change.type=='removed'){
+          let div=homecart.querySelector('[id=' + change.doc.id + ']');
+          homecart.removeChild(div);
+      } else if(change.type=='modified'){
+          let div=homecart.querySelector('[id=' + change.doc.id + ']');
+          homecart.removeChild(div);
+          indexcart(change.doc);
+      }
+     
+  })
+})
+  }})
