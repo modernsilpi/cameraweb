@@ -6,6 +6,7 @@ const logoutli=document.querySelector('.logoutli');
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
      console.log("user login")
+     document.querySelector('.usercart').style.display="block"
      
      //visible only logout when user logged in
      loginli.style.display="none";
@@ -292,24 +293,30 @@ function indexcart(cartt){
   <div >
   <img src="${cart.link}" alt="">
 </div>
-     <div>
+     <div class="cart-text">
       <p>
       ${cart.name}
       </p>
      </div>
     
      <div class="control">
-      <p class="cart-quantity decreaseqty" id="d${cartt.id}"><button >-</button></p>
+      <p class="cart-quantity decreaseqty pl-mi" id="d${cartt.id}"><span class="material-icons">
+      remove_circle
+      </span></p>
       <span class="count-span">${cart.qty}</span>
-      <p  class="cart-quantity increaseqty" id="i${cartt.id}"><button>+</button></p>
+      <p  class="cart-quantity increaseqty pl-mi" id="i${cartt.id}"><span class="material-icons">
+      add_circle
+      </span></p>
     </div>
 
-    <div>
-      <p>${cart.price}x${cart.qty}=${totalcost}</p>
+    <div class="cart-text">
+      <p class="text-center">${cart.price}x${cart.qty}=${totalcost}</p>
     </div>
       
      <div class="control">
-      <span class="pl-mi removecart" id="r${cartt.id}">X</span>
+      <span class="pl-mi removecart" id="r${cartt.id}"><span class="material-icons">
+      cancel
+      </span></span>
      </div><br>`;
      html+=li;
 
@@ -340,7 +347,7 @@ decreaseqty.addEventListener('click',e=>{
 //remove item in cart
 const remove=document.querySelector(`#r${cartt.id}`)
 remove.addEventListener('click',e=>{
-    let id = e.target.parentElement.parentElement.getAttribute('id');
+    let id = e.target.parentElement.parentElement.parentElement.getAttribute('id');
     console.log(id)
     console.log("remove btn clicked");
     removecart(id)
@@ -387,7 +394,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     console.log('cart price',cartprice)
     var li2;
     li2=`
-    <p>totalcart ${cartprice}</p>
+    <p class="text-center totalCart"><b>Totalcart:</b> ${cartprice}</p>
     `;
     carttotal.innerHTML=li2;
     

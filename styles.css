@@ -18,12 +18,12 @@ header {
 
 header ul a:hover{
     text-decoration: none;
-    color: white;
+    color: rgb(207, 206, 206);
     transition: 0.3s;
 }
 
 header ul a {
-    color: white;
+    color: rgb(90, 89, 89);
 }
 
 header ul {
@@ -51,7 +51,7 @@ header ul li {
     overflow: auto;
 }
 
-.back-layer,.back-layer2 {
+.back-layer, .back-layer2 {
     z-index: 99;
     background: rgba(218, 218, 218, 0.925);
     margin-top: -600px;
@@ -123,6 +123,9 @@ nav {
 .nav-lists {
     margin-left: 50%;
 }
+.usercart {
+    display: none;
+}
 
 /*carousel section*/
 
@@ -148,7 +151,7 @@ nav {
 /*category buttons*/
 
 .buttons-container {
-    margin: 40px auto;
+    margin: 50px auto;
     text-align: center;
 }
 
@@ -163,12 +166,19 @@ nav {
 
 /*date selector*/
 
-.date-selector {
-    display: inline-flex;
+.date-selector-div {
+    /* display: inline-flex; */
     margin: 25px auto;
     /* padding: 10%; */
-    width: 100%;
+    width: 900px;
     text-align: center;
+    border: 1px solid rgb(182, 181, 181);
+    border-radius: 10px;
+}
+
+.date-pickers {
+    display: inline-flex;
+    width: 100%;
 }
 
 .left-date p, .right-date p{
@@ -179,7 +189,7 @@ nav {
 }
 
 .left-date {
-    margin-left: 150px;
+     margin-left: 120px; 
 }
 
  .right-date {
@@ -190,31 +200,38 @@ nav {
 /*cart table*/
 
 .cart-table {
-   margin: 0 14%;
+   margin: 0 10%;
+   border-radius: 10px;
+   border: 1px solid rgb(36, 36, 36);
+}
+
+.cart-heading, .booking-heading {
+    margin: 50px auto;
 }
 
 .cart-table div{
     display: inline-flex;
-    margin: 50px auto;
-    border: 1px solid rgba(180, 180, 180, 0.973);
-}
-.cart-total{
-    text-align: center;
-    font-weight: bold;
+    margin: 0 auto;
+    /* border: 1px solid rgba(204, 203, 203, 0.973); */
 }
 
 .cart-table div div {
-    margin:0;
+    margin:0 auto;
     text-align: center;
     justify-content: center;
     padding: 20px;
     width: 200px;
-    height: 80px;
+    height: 120px;
 }
 
 .cart-table div img{
-    height: 40px;
-    width: 40px;
+    height: 70px;
+    width: 70px;
+    margin: 0 auto;
+}
+
+.cart-text p {
+    margin-top: 25px;
 }
 
 .cart-table .control {
@@ -222,25 +239,66 @@ nav {
     color: white;
 }
 
-.cart-table .control:hover {
-    color: rgb(190, 189, 189);
-    transition: all 0.4s;
-}
-
 .cart-table .control .count-span {
     width: 50px;
+    margin-top: 28px;
+    color: black;
 }
 
 .cart-table .control .pl-mi {
-    background: #2a2a2b;
-    border-radius: 50%;
+    /* background: #f0f0f1; */
+    /* border-radius: 50%;
+   
     width: 30px;
     height: 30px;
-    padding: 2px;
+    padding: 2px; */
+    margin-top: 25px;
 }
 
-.cart-table .control .pl-mi:hover {
+ .material-icons {
+    color: rgba(37, 37, 37, 0.938);
+    font-size: 28px;
+
+}
+
+.material-icons:hover {
+    color: black;
+    transition: all 0.4s;
+    cursor: pointer;
+}
+
+/* .cart-table .control .pl-mi:hover {
     background: rgb(53, 53, 53);
+    color: rgb(190, 189, 189);
+    transition: all 0.4s
+} */
+
+.totalCart {
+    margin: 20px auto;
+    font-size: 20px;
+}
+
+.checkout {
+    text-align: center;
+}
+
+.booking-heading {
+    background: black;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    padding-top: 3px;
+    height: 70px;
+    width: 900px;
+}
+
+.booking-heading h3 {
+    /* background: white; */
+    margin: 10px auto 0 auto;
+    height: 70px;
+    border-top: 150px;
+    border-bottom: 50px;
+    width: 200px;
 }
 
 /*rules*/
@@ -258,7 +316,7 @@ nav {
 
 /*payment*/
 
-.payment {
+/* .payment {
     margin: 50px auto;
 }
 
@@ -279,7 +337,7 @@ nav {
 .form-cvv .form-group input, .form-cvv .form-group label {
     width: 100px;
     /*margin-left: 30px;*/
-}
+/* }
 
 .form-cvv .f-g1 input, .form-cvv .f-g1 label {
     margin-left: 30px;
@@ -288,21 +346,33 @@ nav {
 
 .form-cvv {
     display: inline-flex;
-}
+} */ 
 
 .payment-sections {
+    display: none;
+    margin: 50px;
+    border-radius: 10px;
+    border: 1px solid rgb(194, 193, 193);
+    box-shadow: 1px 1px 10px rgb(173, 173, 173);
+
+}
+
+.cart-heading {
+    margin-top: 50px;
+}
+
+/*date selector*/
+
+.app {
+    position: fixed;
     display: none;
 }
 
 
 /*cards*/
-.unique {
-    /* position:fixed; */
-    top: 5%;
-    left: 5%;
-}
+
 .card {
-    border-radius: 15px;
+    border-radius: 10px;
     text-align: center;
     background: rgb(34, 33, 33);
     color: rgb(128, 127, 127);
@@ -315,7 +385,7 @@ nav {
 }
 
 .col-lg-3 {
-    margin: 20px;
+    margin: 10px;
 } 
 
 

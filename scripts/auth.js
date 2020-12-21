@@ -24,6 +24,7 @@ generateotp.addEventListener('click', (e)=>{
   .then(function(confirmationResult) {
     window.confirmationResult = confirmationResult;
     console.log(confirmationResult);
+    document.querySelector('#recaptcha-container').style.display="none";
   });
 })
 var phonenumber;
@@ -37,6 +38,7 @@ verifyotp.addEventListener('click',(e)=>{
         //add user data to db
         phonenumber=document.querySelector('.phonenumber').value;
       console.log(result);
+      document.querySelector('.back-layer').style.display="none";
     }).catch(function(error) {
       console.log(error);
     });
@@ -51,6 +53,7 @@ lgenerateotp.addEventListener('click', (e)=>{
   .then(function(lconfirmationResult) {
     window.lconfirmationResult = lconfirmationResult;
     console.log(lconfirmationResult);
+    document.querySelector('#lrecaptcha-container').style.display="none";
   });
 })
 lverifyotp=document.querySelector('.lverifyotp');
@@ -62,6 +65,7 @@ lverifyotp.addEventListener('click',(e)=>{
         //add user data to db
         phonenumber=document.querySelector('.lphonenumber').value;
       console.log(result);
+      document.querySelector('.back-layer2').style.display="none";
     }).catch(function(error) {
       console.log(error);
     });
