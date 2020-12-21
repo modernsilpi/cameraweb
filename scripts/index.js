@@ -397,6 +397,7 @@ remove.addEventListener('click',e=>{
 
 
 var cartprice=0;
+
 //total cart price is here
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
@@ -415,10 +416,14 @@ firebase.auth().onAuthStateChanged(function(user) {
     carttotal.innerHTML=li2;
     
     
+    
     })
   }
 }
 )
+
+
+
 
 
 
