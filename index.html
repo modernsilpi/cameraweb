@@ -36,18 +36,18 @@
     <header class="fixed-top">
         <div class="nav-maps">
             <ul>
-                <li>
-                  <a href="#scrollcart" class="usercart">Cart</a>
+                <li class="usercart">
+                  <i class="fas fa-cart-plus"></i><a href="#scrollcart" >Cart</a>
               </li>
 
                 <li class="registerli">
-                  <a href="#" class="login-button register">Register</a>
+                  <i class="fas fa-user-plus"></i> <a href="#" class="login-button register">Register</a>
               </li>
               <li class="loginli">
-                <a href="#" class="login-button loginbut">Login</a>
+                <i class="fas fa-user-circle"></i> <a href="#" class="login-button loginbut">Login</a>
             </li>
               <li class="logoutli">
-                <a href="#" class="logout-button logout">Logout</a>
+                <i class="fas fa-power-off"></i> <a href="#" class="logout-button logoutbtn">Logout</a>
             </li>
             </ul>
         </div>        
@@ -58,7 +58,7 @@
         
         <a class="navbar-brand" href="#">
           <img src="logo.png" alt="logo">
-          <p>Dslr4Rent</p>
+          <p>Anoop Cameras</p>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -67,16 +67,16 @@
         <div class="collapse navbar-collapse nav-lists" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <i class="fas fa-home"></i>  <a class="nav-link" href="#"> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <i class="fas fa-info-circle"></i><a class="nav-link" href="about.html">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact</a>
+              <i class="fas fa-address-book"></i>  <a class="nav-link" href="contact.html">Contact</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="terms.html">Terms</a>
+                <i class="fas fa-clipboard-list"></i>  <a class="nav-link" href="terms.html">Terms</a>
               </li>
               <!-- <li class="nav-item">
                 <input type="file" value="upload" id="filebutton" />
@@ -219,8 +219,10 @@
 <div class="payment-sections" >
 
   <!--booked products-->
-
-  <h3 class="text-center cart-heading" id="scrollcart">Cart</h3>
+<div class="booking-heading cart-head">
+  <h3 class="text-center" id="scrollcart">Cart</h3>
+</div>
+  
   <section class="cart-table">
     <!-- <div class="cart-home">  -->
 <!-- <div >
@@ -264,18 +266,14 @@
       <div class="left-date">
         <h4>Pick up date</h4>
         <!-- <p>____ / ____ / ____</p> -->
-        <input type="text" placeholder="YYYY - MM - DD"
-                onfocus="(this.type='date')"
-                onblur="(this.type='text')"> 
+        <input type="date" placeholder="YYYY - MM - DD" required> 
         </div>
         
             <div class="right-date">
               <h4>Return date</h4>
               <!-- <p>____ / ____ / ____</p> -->
         
-              <input type="text" placeholder="YYYY - MM - DD"
-                onfocus="(this.type='date')"
-                onblur="(this.type='text')"> 
+              <input type="date" placeholder="YYYY - MM - DD" required> 
             </div>
      </div>
     

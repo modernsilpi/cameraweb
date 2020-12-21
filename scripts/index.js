@@ -124,7 +124,7 @@ function uniquefeed2(data){ //only subcategory function here
         <div class="card-body">
           <h5 class="card-title">${cam.data().name}</h5>
           <p class="card-text">${cam.data().price}</p>
-          <a href="#" class="btn btn-light rentit" id="${cam.id}">Rentt</a>
+          <a href="#" class="btn btn-light rentit" id="${cam.id}">book</a>
         </div>
       </div>
   </div>
@@ -169,13 +169,19 @@ data.forEach(nup=>{
    nup.forEach(cam=>{
 
     console.log("id",cam.id)
-    li=`   <div class="col-lg-3 col-md-4 col-sm-6">      
+    li=`  
+    <div class="marginCard"> 
+    <div class="col-lg-3 col-md-4 col-sm-6">  
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title" >${cam.data().name}</h5>
-          <p class="card-text">${cam.data().price}</p>
-          <a href="#" class="btn btn-light rentit" id="${cam.id}">Rent</a>
+          <div class="rate-qty">
+          <p class="card-text">Qty: ${cam.data().qty}</p>
+          <p class="card-text">&#8377; ${cam.data().price}</p>
+          </div>
+          <a href="#" class="btn btn-dark rentit" id="${cam.id}"><b>Book</b></a>
+        </div>
         </div>
         </div>
   </div>
@@ -194,17 +200,26 @@ rent.forEach(rant=>{
     cartprice=0;
     console.log("rented")
   //  paymentSections.style.display = "block";
-    rant.setAttribute('href', "#payment-sections1");
+   
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+       rant.setAttribute('href', "#payment-sections1");
+       document.querySelector('.usercart').style.display="block"
     document.querySelector('.payment-sections').style.display="block";
     var ids =e.target.getAttribute('id')
     console.log(ids)
-  //  search2(ids)// this is for add product to user cart db
-  //  usercart();
-   // search(maincategory,ids);
    advancedsearch(ids);
+      }
+      else{
+        alert("please login to buy")
+        console.log("please login to buy")
+        document.querySelector('.back-layer2').style.display="block"
+      }
+    })
   })
 })
 }
+
 
 function setupguides(data){
     let html='';

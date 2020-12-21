@@ -398,7 +398,7 @@ function database(id,subcat){
 
 
 
-const logout=document.querySelector('.logout')
+const logout=document.querySelector('.logoutbtn')
 logout.addEventListener('click', (e)=>{
     e.preventDefault();
     var user = firebase.auth().currentUser;
@@ -417,6 +417,8 @@ if (user != null) {
 }
 
     firebase.auth().signOut().then(function() {
+      document.querySelector('.usercart').style.display="none"
+      document.querySelector('.payment-sections').style.display="none";
         console.log("logout successfully");
       }).catch(function(error) {
        console.log(`error while logout ${error}`);
