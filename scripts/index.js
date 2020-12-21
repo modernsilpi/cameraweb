@@ -201,6 +201,7 @@ rent.forEach(rant=>{
     console.log("rented")
   //  paymentSections.style.display = "block";
    
+  
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
        rant.setAttribute('href', "#payment-sections1");
