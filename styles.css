@@ -10,6 +10,76 @@ html {
     scroll-behavior: smooth;
 }
 
+/* user dashboard */
+.userdashboard{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.my-orders {
+   display: inline-block;
+   padding: 10px;
+   background:  #2a2a2b;
+   color: white;
+   border-radius: 10px;
+   margin:10px 0 10px 5px;
+   border: 1px solid rgb(97, 97, 97);
+   box-shadow: 1px 1px 1px rgb(148, 147, 147);
+}
+
+.fridge {
+    margin: 20px;
+    height: 350px;
+    box-shadow: 1px 1px 10px rgb(134, 134, 134);
+    border-radius: 10px;
+    overflow: auto;
+
+}
+
+.my-orders span {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.my-ordhead {
+    margin: 10px auto;
+}
+
+.order-pic2 h5 {
+    margin: 0;
+}
+
+.my-orders p {
+    margin: 4px;
+    font-weight: 200;
+    font-size: 16px;
+}
+
+.order-pic img {
+    height: 60px;
+    width: 60px;
+    margin:0 10px 0 10px;
+}
+
+ .ordered-dates, .order-pic2 p {
+    display: inline-flex;
+}
+
+.order-pic2 {
+    display: inline-flex;
+}
+
+.order-pic p, .ordered-dates p {
+    margin-right: 20px;
+}
+
+.userdashboard div{
+    display: inline-flex;
+}
+.userdashboard div p{
+    margin-left: 20px;
+    
+}
 /*header*/
 
 header {
@@ -52,7 +122,7 @@ header ul li {
     overflow: auto;
 }
 
-.back-layer, .back-layer2 {
+.back-layer, .back-layer2, .back-layer3 {
     z-index: 99;
     background: rgba(218, 218, 218, 0.925);
     margin-top: -600px;
@@ -62,7 +132,9 @@ header ul li {
     transition:all 0.4s;
     display: none;
 }
-
+.back-layer3{
+    margin-top: -10px;
+}
 .close-btn {
     float: right;
     background: black;

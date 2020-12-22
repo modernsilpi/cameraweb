@@ -423,6 +423,196 @@ firebase.auth().onAuthStateChanged(function(user) {
 )
 
 
+//user dashboard
+const usernamefield=document.querySelector('.usernamefield')
+var uservalue=1;
+usernamefield.addEventListener('click',(e)=>{
+  getuserorders()
+  if(uservalue==1){
+    document.querySelector('.back-layer3').style.display="block";
+    uservalue=0;
+
+  }
+  else{
+    document.querySelector('.back-layer3').style.display="none";
+    uservalue=1;
+
+  }
+ 
+})
+
+//<div class="my-orders">
+//orders
+// const ordersappend=document.querySelector('.ordersappend')
+// const fridge=document.querySelector('.fridge');
+// ordersappend.addEventListener('click',(e)=>{
+//   const div=document.createElement('div')
+//   div.setAttribute('class',"my-orders")
+//   var li=`     
+    
+//   <div class="order-pic">
+//     <div class="order-pic2">
+//       <div>
+//         <img src="1.jpg" alt="">
+//       </div>
+    
+//   <div>
+//     <h5> Nikon  5d</h5>
+ 
+//     <p><span>Qty: </span>&nbsp; 8</p>
+//     <p><span>Price:</span>&nbsp; 9000</p>
+
+    
+//   </div>
+     
+   
+      
+  
+//     </div>
+   
+//     </div>
+   
+ 
+//   <p><span>Order Id:</span> jhgsdfhhghsdksjvskhvsh</p>
+//   <p><span>Payment Id:</span> shjbvfjhajhguh</p>
+//   <p><span>Payment status:</span> success</p>
+//     <p><span>From: </span>20/20/20 20:20 P.M.</p>
+//     <p><span>To: </span>20/20/20 20:20 A.M. </p>
+//   `;
+// div.innerHTML=li
+// fridge.append(div)
+
+// })
+
+//orders
+
+const ordersappend=document.querySelector('.ordersappend')
+const fridge=document.querySelector('.fridge');
+
+function displayorders(data){
+ // fridge.innerHTML="";
+  
+  if(data.products.length>4){
+    for(var i=0;i<data.products.length;i=i+4){
+      const div=document.createElement('div')
+      div.setAttribute('class',"my-orders")
+      var li=`     
+        
+      <div class="order-pic">
+        <div class="order-pic2">
+          <div>
+            <img src="${data.products[i+3]}" alt="">
+          </div>
+        
+      <div>
+        <h5> ${data.products[i+0]}</h5>
+     
+        <p><span>Qty: </span>&nbsp; ${data.products[i+1]}</p>
+        <p><span>Price:</span>&nbsp; ${data.products[i+2]}</p>
+    
+        
+      </div>
+         
+       
+          
+      
+        </div>
+       
+        </div>
+       
+     
+      <p><span>Order Id:</span>${data.orderid}</p>
+      <p><span>Payment Id:</span>${data.paymentid}</p>
+      <p><span>Payment status:</span>${data.paymentstatus}</p>
+        <p><span>From: </span>${data.pickupdate}</p>
+        <p><span>To: </span>${data.returndate}</p>
+      `;
+    div.innerHTML=li
+    fridge.append(div)
+    
+    }
+  }
+  else{
+    const div=document.createElement('div')
+    div.setAttribute('class',"my-orders")
+    var li=`     
+      
+    <div class="order-pic">
+      <div class="order-pic2">
+        <div>
+          <img src="${data.products[3]}" alt="">
+        </div>
+      
+    <div>
+      <h5> ${data.products[0]}</h5>
+   
+      <p><span>Qty: </span>&nbsp; ${data.products[1]}</p>
+      <p><span>Price:</span>&nbsp; ${data.products[2]}</p>
+  
+      
+    </div>
+       
+     
+        
+    
+      </div>
+     
+      </div>
+     
+   
+    <p><span>Order Id:</span>${data.orderid}</p>
+    <p><span>Payment Id:</span>${data.paymentid}</p>
+    <p><span>Payment status:</span>${data.paymentstatus}</p>
+      <p><span>From: </span>${data.pickupdate}</p>
+      <p><span>To: </span>${data.returndate}</p>
+    `;
+  div.innerHTML=li
+  fridge.append(div)
+  
+  }
+
+}
+
+
+// function displayorders(data){
+//   console.log('product length',data.products.length)
+//   const div=document.createElement('div')
+//   div.setAttribute('class',"my-orders")
+//   var li=`     
+    
+//   <div class="order-pic">
+//     <div class="order-pic2">
+//       <div>
+//         <img src="${data.products[3]}" alt="">
+//       </div>
+    
+//   <div>
+//     <h5> ${data.products[0]}</h5>
+ 
+//     <p><span>Qty: </span>&nbsp; ${data.products[1]}</p>
+//     <p><span>Price:</span>&nbsp; ${data.products[2]}</p>
+
+    
+//   </div>
+     
+   
+      
+  
+//     </div>
+   
+//     </div>
+   
+ 
+//   <p><span>Order Id:</span>${data.orderid}</p>
+//   <p><span>Payment Id:</span>${data.paymentid}</p>
+//   <p><span>Payment status:</span>${data.paymentstatus}</p>
+//     <p><span>From: </span>${data.pickupdate}</p>
+//     <p><span>To: </span>${data.returndate}</p>
+//   `;
+// div.innerHTML=li
+// fridge.append(div)
+
+// }
 
 
 

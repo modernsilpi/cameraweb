@@ -10,8 +10,17 @@ firebase.auth().onAuthStateChanged(function(user) {
      console.log("user login")
      mainuser=user
      mainusercond=1;
+     var li;
+     db.collection('users').doc(user.uid).collection('profile').doc(user.uid).onSnapshot(snap=>{
+       li=`<i class="fas fa-user-circle"></i> <a href="#" class="logout-button ">${snap.data().name}</a>`
+         document.querySelector('.usernamefield').innerHTML=li;
+         document.querySelector('.usernamefield').style.display="block";
+     })
+    
+
     } else {
      console.log("user not login")
+     document.querySelector('.usernamefield').style.display="none";
     }
   });
 
@@ -491,3 +500,14 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
   })
 })
   }})
+
+  //get user orders here
+  function getuserorders(){
+    db.collection('users').doc(firebase.auth().currentUser.uid).collection('orders').onSnapshot(snap=>{
+      fridge.innerHTML="";
+      snap.forEach(nap=>{
+        console.log(nap.data());
+        displayorders(nap.data());
+      })
+    })
+  }
