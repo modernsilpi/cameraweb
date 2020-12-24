@@ -197,7 +197,7 @@
         <button type="button" class="btn btn-light verifyotp" >Submit</button>
         <label for="exampleInputEmail1">Name</label>
         <input type="text" class="form-control signinname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
-        <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+        <small id="emailHelp2" class="form-text text-muted">We'll never share your details with anyone else.</small>
       </div>
       <div id="recaptcha-container"></div>
 
@@ -240,14 +240,14 @@
       <div class="form-group">
         <div class="form-group">
           <label for="exampleInputPassword1">Phone number</label>
-          <input type="text" class="form-control lphonenumber " id="exampleInputPassword" placeholder="Your phone number" required>
+          <input type="text" class="form-control lphonenumber " id="exampleInputPassword2" placeholder="Your phone number" required>
           <button type="button" class="btn btn-light lgenerateotp" >Send OTP</button>
         </div>
        
        
         <div class="form-group">
           <label for="exampleInputPassword1">Validation</label>
-          <input type="password" class="form-control lverificationcode" id="exampleInputPassword1" placeholder="Enter your otp here" required>
+          <input type="password" class="form-control lverificationcode" id="exampleInputPassword12" placeholder="Enter your otp here" required>
         </div>
         <button type="button" class="btn btn-light lverifyotp" >Submit</button>
        
@@ -319,7 +319,18 @@
     
     <!-- </div> -->
   </section>
+  <div class="input-group1">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control promocodefield" placeholder="HAVE A PROMO CODE" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+    <button class="btn btn-dark" type="submit"id="promobtn">Apply</button>
+  </div>
+
+
   <div class="cart-total"></div>
+
+</div>
+<div class="alert alert-danger promoerror"></div>
+
   <div class="checkout"><button class="btn btn-dark" id="checkoutbtn">Check Out</button></div>
 
  <!--date selector-->
