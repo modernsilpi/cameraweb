@@ -92,7 +92,7 @@ function paymentprocess(){
             // alert(response.razorpay_order_id);
             // alert(response.razorpay_signature)
             promocodeineligible()
-           // decreasecart();
+            decreasecart();
             makeorder();
             userorder();
             savetodb(response)
@@ -175,7 +175,6 @@ function updatepaymentstatus(response){
      cartprice=0;
      document.querySelector('.payment-sections').style.display="none";
     // promocodeineligible();
-    decreasecart();
 }
 function promocodeineligible(){
     if(promocodestatus==1){
@@ -308,60 +307,29 @@ function makeorderfail(response){
 
 
 // decrease cart in the website 
+var productid=[];
+var qte=[];
 function decreasecart(){
-if(donepayment==1){
+
     console.log("donepayment")
-    db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
+    db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').get().then(snap=>{
         snap.docs.forEach(nap=>{
             console.log(nap.id)
-            let productid=nap.id;
-            let qte=nap.data().qty;
-            // console.log(nap.data().qty)
-            // minuscart(nap.id,nap.data().qty)
-            db.collection('categorybutton').onSnapshot(id=>{
-                id.docs.forEach(id2=>{
-                  for (var name of Object.keys(id2.data())) {
-                 //   count=count+1;
-                    console.log("object keys",Object.keys(id2.data()).length)
-                    console.log("path",id2.id,name)
-                    db.collection('categorybutton').doc(id2.id).collection(name).onSnapshot(snapp=>{
-                     snapp.docs.forEach(pan=>{
-                       if(pan.id==productid){
-
-                        console.log(`product id ${productid},searchid ${pan.id}, qty is ${qte} category${name}`);
-                        db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).onSnapshot(snap=>{
-                          console.log(snap.data().qty)
-                          qte=snap.data().qty-qte;
-                          console.log(qte)
-                        })
-                        db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
-                          //  qty:firebase.firestore.FieldValue.increment(`-${qte}`)
-                          qty:qte
-                          
-                        })
-                       }
-                     })
-                
-                    });
-                }
-                })
-              })
+             productid=nap.id;
+             qte=nap.data().qty;
+             
+            minuscart(productid,qte);
         })
     }).then(()=>{
-        console.log("updating user cart")
-        return db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
+        console.log("deleting")
+        db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').get().then(snap=>{
             snap.docs.forEach(nap=>{
                 console.log(nap.id)
-                let idd=nap.id;
-                db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(idd).delete();
+                db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(nap.id).delete();
             })
-        })
-    }).catch(err =>{ console.log(err)
-       
+        });location.reload()
     })
-       donepayment=0; 
   }    
-}
 
 
 //promo code function

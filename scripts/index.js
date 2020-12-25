@@ -172,7 +172,7 @@ data.forEach(nup=>{
     li=`  
     <div class="marginCard"> 
     <div class="col-lg-3 col-md-4 col-sm-6">  
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 18rem;" id="${cam.id}">
         <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title" >${cam.data().name}</h5>
@@ -207,14 +207,14 @@ rent.forEach(rant=>{
        rant.setAttribute('href', "#payment-sections1");
        document.querySelector('.usercart').style.display="block"
     document.querySelector('.payment-sections').style.display="block";
-    var ids =e.target.getAttribute('id')
+    var ids =e.target.parentElement.parentElement.getAttribute('id')
     console.log(ids)
    advancedsearch(ids);
       }
       else{
         alert("please login to buy")
         console.log("please login to buy")
-        document.querySelector('.back-layer2').style.display="block"
+        document.querySelector('.back-layer').style.display="block"
       }
     })
   })
@@ -296,6 +296,7 @@ var buttons;
 
 const homecart=document.querySelector('.cart-table')
 const carttotal=document.querySelector('.cart-total')
+
 function indexcart(cartt){
   const div = document.createElement('div');
   var cart=cartt.data()

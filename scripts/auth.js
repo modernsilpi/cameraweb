@@ -515,30 +515,30 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
 
   //
   function minuscart(productid,qte){
-    db.collection('categorybutton').onSnapshot(id=>{
+    db.collection('categorybutton').get().then(id=>{
       id.docs.forEach(id2=>{
         for (var name of Object.keys(id2.data())) {
        //   count=count+1;
           console.log("object keys",Object.keys(id2.data()).length)
           console.log("path",id2.id,name)
-          db.collection('categorybutton').doc(id2.id).collection(name).onSnapshot(snapp=>{
+          db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
            snapp.docs.forEach(pan=>{
              if(pan.id==productid){
-              //  console.log('decreasing qty',pan.data())
-              // db.collection('categorybutton').doc(id2.id).collection(name).doc(pan.id).update({
-              //   qty:firebase.firestore.FieldValue.increment(-1)
-              // })
               console.log(`product id ${productid},searchid ${pan.id}, qty is ${qte} category${name}`);
-              db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).onSnapshot(snap=>{
+              db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).get().then(snap=>{
                 console.log(snap.data().qty)
                 qte=snap.data().qty-qte;
                 console.log(qte)
-              })
-              db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
-                //  qty:firebase.firestore.FieldValue.increment(`-${qte}`)
-                qty:qte
+              }).then(()=>{
+                console.log("updating ")
+                return db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
+                  //  qty:firebase.firestore.FieldValue.increment(`-${qte}`)
+                  qty:qte
                 
+                })
+
               })
+
              }
            })
       
