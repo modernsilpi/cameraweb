@@ -47,7 +47,7 @@ verifyotp.addEventListener('click',(e)=>{
         //add user data to db
         phonenumber=document.querySelector('.phonenumber').value;
       console.log(result);
-      document.querySelector('.back-layer').style.display="none";
+     // document.querySelector('.back-layer').style.display="none";
     }).catch(function(error) {
       console.log(error);
     });
@@ -95,8 +95,9 @@ signupsubmit.addEventListener('click',(e)=>{
              location:signinlocation.value,
              adharfront:adharcardf,
              adharback:adharcardb,
-             array:[1,2,"sekhar","1","24"]
+             promocode:"eligible"
          }).then(function(){ 
+          document.querySelector('.back-layer').style.display="none";
       
           })
           .catch(function(err){
@@ -268,12 +269,12 @@ function advancedsearch(productid){
   db.collection('categorybutton').onSnapshot(id=>{
     id.docs.forEach(id2=>{
       for (var name of Object.keys(id2.data())) {
-     //   count=count+1;
         console.log("object keys",Object.keys(id2.data()).length)
         console.log("path",id2.id,name)
         db.collection('categorybutton').doc(id2.id).collection(name).onSnapshot(snapp=>{
          snapp.docs.forEach(pan=>{
            if(pan.id==productid){
+            console.log(`product id ${productid},searchid ${pan.id}, qty is ${qte} category${name}`);
              console.log('your product details',pan.data())
              db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(pan.id).set({
               name:pan.data().name,
@@ -335,14 +336,14 @@ function decreasedb(id){//decrease qty cart in db
 
 function database2(id){
     pappu=[];
-    db.collection('categorybutton').doc(id).onSnapshot(snap=>{
+    db.collection('categorybutton').doc(id).get().then(snap=>{
         console.log(snap)
         let count=0;
 for (var name of Object.keys(snap.data())) {
     count=count+1;
     console.log("object keys",Object.keys(snap.data()).length)
     console.log(name.length)
-    db.collection('categorybutton').doc(id).collection(name).onSnapshot(snapp=>{
+    db.collection('categorybutton').doc(id).collection(name).get().then(snapp=>{
        
    pappu.push(snapp.docs)
    console.log("count ",count)
@@ -366,13 +367,13 @@ for (var name of Object.keys(snap.data())) {
 
 //this function append all product in home page
 var kappu=[];
-db.collection('categorybutton').onSnapshot(id=>{
+db.collection('categorybutton').get().then(id=>{
   id.docs.forEach(id2=>{
     for (var name of Object.keys(id2.data())) {
    //   count=count+1;
       console.log("object keys",Object.keys(id2.data()).length)
       console.log("path",id2.id,name)
-      db.collection('categorybutton').doc(id2.id).collection(name).onSnapshot(snapp=>{
+      db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
          kappu.push(snapp.docs);
          uniquefeed3(kappu)
     //  snapp.docs.forEach(id3=>{
@@ -393,7 +394,7 @@ db.collection('categorybutton').onSnapshot(id=>{
 
 function database(id,subcat){
     console.log("databse id is",id)
-    db.collection('categorybutton').doc(id).collection(subcat).onSnapshot(snapp=>{
+    db.collection('categorybutton').doc(id).collection(subcat).get().then(snapp=>{
         console.log(snapp.docs)
         var sek=snapp.docs;
         sek.forEach(up=>{
@@ -430,6 +431,7 @@ if (user != null) {
       document.querySelector('.usercart').style.display="none"
       document.querySelector('.payment-sections').style.display="none";
         console.log("logout successfully");
+        location.reload();
       }).catch(function(error) {
        console.log(`error while logout ${error}`);
       });
@@ -518,33 +520,64 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
     db.collection('categorybutton').get().then(id=>{
       id.docs.forEach(id2=>{
         for (var name of Object.keys(id2.data())) {
-       //   count=count+1;
-          console.log("object keys",Object.keys(id2.data()).length)
-          console.log("path",id2.id,name)
-          db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
-           snapp.docs.forEach(pan=>{
-             if(pan.id==productid){
-              console.log(`product id ${productid},searchid ${pan.id}, qty is ${qte} category${name}`);
-              db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).get().then(snap=>{
-                console.log(snap.data().qty)
-                qte=snap.data().qty-qte;
-                console.log(qte)
-              }).then(()=>{
-                console.log("updating ")
-                return db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
-                  //  qty:firebase.firestore.FieldValue.increment(`-${qte}`)
-                  qty:qte
+              // console.log("object keys",Object.keys(id2.data()).length)
+          console.log("path",name);
+          minuscart2(productid,qte,id2,name);
+        
+          // db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
+          //   console.log("category is",name)
+          //  snapp.docs.forEach(pan=>{
+          //    if(pan.id==productid){
+          //     console.log('your product details',pan.data())
+          //     console.log(`product id ${productid},searchid ${pan.id}, qty is ${pan.data().qty} category${name}`);
+          //     db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).get().then(cnap=>{
+          //       console.log(cnap.data())
+          //       qte=cnap.data().qty-qte;
+          //       console.log(qte)
+          //     }).then(()=>{
+          //       console.log("updating ")
+          //       return db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
+          //         //  qty:firebase.firestore.FieldValue.increment(`-${qte}`)
+          //         qty:qte
                 
-                })
+          //       })
 
-              })
+          //     })
 
-             }
-           })
+          //    }
+          //  })
       
-          });
+          // })
       }
       })
     })
   
+  }
+
+  function minuscart2(productid,qte,id2,name){
+
+    db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
+      console.log("category is",name)
+     snapp.docs.forEach(pan=>{
+       if(pan.id==productid){
+        console.log('your product details',pan.data())
+        console.log(`product id ${productid},searchid ${pan.id}, qty is ${pan.data().qty} category${name}`);
+        db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).get().then(cnap=>{
+          console.log(cnap.data())
+          qte=cnap.data().qty-qte;
+          console.log(qte)
+        }).then(()=>{
+          console.log("updating ")
+          return db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
+             qty:qte
+          
+          })
+
+        })
+
+       }
+     })
+
+    })
+    
   }

@@ -118,15 +118,21 @@ function uniquefeed2(data){ //only subcategory function here
   let html='';
   var li;
   data.forEach(cam=>{
-    li=`          <div class="col-lg-3 col-md-4 col-sm-6">
-    <div class="card" style="width: 18rem;">
+    li=`  
+    <div class="marginCard"> 
+    <div class="col-lg-3 col-md-4 col-sm-6">  
+    <div class="card" style="width: 18rem;" id="${cam.id}">
         <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
         <div class="card-body">
-          <h5 class="card-title">${cam.data().name}</h5>
-          <p class="card-text">${cam.data().price}</p>
-          <a href="#" class="btn btn-light rentit" id="${cam.id}">book</a>
+          <h5 class="card-title" >${cam.data().name}</h5>
+          <div class="rate-qty">
+          <p class="card-text">Qty: ${cam.data().qty}</p>
+          <p class="card-text">&#8377; ${cam.data().price}</p>
+          </div>
+          <a href="#" class="btn btn-dark rentit" id="${cam.id}"><b>Book</b></a>
         </div>
-      </div>
+        </div>
+        </div>
   </div>
     `
     html+=li;
@@ -135,30 +141,59 @@ function uniquefeed2(data){ //only subcategory function here
   
   })
   const rent =document.querySelectorAll('.rentit');
- // const paymentSections = document.querySelector('.payment-sections');
-  rent.forEach(rant=>{
-    rant.addEventListener('click',e=>{
-      cartprice=0;
-      console.log("rented")
-    //  paymentSections.style.display = "block";
-    //  rant.setAttribute('href', "#payment-sections1");
+//const paymentSections = document.querySelector('.payment-sections');
+rent.forEach(rant=>{
+  rant.addEventListener('click',e=>{
+    cartprice=0;
+    console.log("rented")
+  //  paymentSections.style.display = "block";
+   
+  
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var ids =e.target.parentElement.parentElement.getAttribute('id')
+    
+       document.querySelector('.usercart').style.display="block"
     document.querySelector('.payment-sections').style.display="block";
-      var ids =e.target.getAttribute('id')
-      console.log(ids)
-    //  search2(ids)// this is for add product to user cart db
-      // usercart();
-    //  search(maincategory,ids);
-    advancedsearch(ids)
+   
+    console.log(ids)
+   advancedsearch(ids);
+   rant.setAttribute('href', "#payment-sections1");
+      }
+      else{
+        alert("please login to buy")
+        console.log("please login to buy")
+        document.querySelector('.back-layer').style.display="block"
+      }
     })
   })
-  $(".rentit").on("click",function(){
-    console.log("renteddd")
-  });
+})
+
+//   const rent =document.querySelectorAll('.rentit');
+//  // const paymentSections = document.querySelector('.payment-sections');
+//   rent.forEach(rant=>{
+//     rant.addEventListener('click',e=>{
+//       cartprice=0;
+//       console.log("rented")
+//     //  paymentSections.style.display = "block";
+//     //  rant.setAttribute('href', "#payment-sections1");
+//     document.querySelector('.payment-sections').style.display="block";
+//       var ids =e.target.getAttribute('id')
+//       console.log(ids)
+//     //  search2(ids)// this is for add product to user cart db
+//       // usercart();
+//     //  search(maincategory,ids);
+//     advancedsearch(ids)
+//     })
+//   })
+  // $(".rentit").on("click",function(){
+  //   console.log("renteddd")
+  // });
 
 }
 
 function uniquefeed3(data){ // this function for append all products including subcategories
-  console.log("feed",data)
+ // console.log("feed",data)
   console.log("uniquefeed3")
  
   let html='';
@@ -192,6 +227,7 @@ data.forEach(nup=>{
   // console.log(cam.data().name)
   })
   
+  
 })
 const rent =document.querySelectorAll('.rentit');
 //const paymentSections = document.querySelector('.payment-sections');
@@ -204,12 +240,14 @@ rent.forEach(rant=>{
   
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-       rant.setAttribute('href', "#payment-sections1");
+        var ids =e.target.parentElement.parentElement.getAttribute('id')
+    
        document.querySelector('.usercart').style.display="block"
     document.querySelector('.payment-sections').style.display="block";
-    var ids =e.target.parentElement.parentElement.getAttribute('id')
+   
     console.log(ids)
    advancedsearch(ids);
+   rant.setAttribute('href', "#payment-sections1");
       }
       else{
         alert("please login to buy")

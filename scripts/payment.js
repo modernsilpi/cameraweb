@@ -1,4 +1,4 @@
-
+const promoerror=document.querySelector('.promoerror');
 //check out button
 var buyername;
 var buyerphone;
@@ -10,7 +10,8 @@ var orderid;
 var donepayment=0;
 checkout=document.querySelector('#checkoutbtn')
 checkout.addEventListener('click',(e)=>{
-     e.preventDefault();
+      e.preventDefault();
+
     //  decreasecart();
     //check weather promo added or not
     if(promocodestatus==0){
@@ -18,12 +19,22 @@ checkout.addEventListener('click',(e)=>{
     }
 pickupdate=document.getElementById('pickupdate').value;
 returndate=document.getElementById('returndate').value;
+if(!pickupdate || !returndate){
+    promoerror.style.display="block"
+    setTimeout(function(){
+      promoerror.style.display="none";
+    }, 5000);
+    promoerror.innerHTML="Please add pickup & return dates";
+    }
+else{
+
+
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
     snap.docs.forEach(nap=>{
         productdetals.push(nap.data().name,nap.data().qty,nap.data().price,nap.data().link)
     })
 })
-    alert(`price is ${promocartprice}`);
+  //  alert(`price is ${promocartprice}`);
     // console.log(productdetals)
     // console.log(pickupdate,returndate);
     
@@ -34,6 +45,7 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
        //makeorder();
        paymentprocess();
    })
+}
     
 })
 function makeorder(){
@@ -91,6 +103,7 @@ function paymentprocess(){
            // alert(response.razorpay_payment_id);
             // alert(response.razorpay_order_id);
             // alert(response.razorpay_signature)
+            
             promocodeineligible()
             decreasecart();
             makeorder();
@@ -98,6 +111,8 @@ function paymentprocess(){
             savetodb(response)
             donepayment=1;
             updatepaymentstatus(response);
+            deleteusercart();
+           // location.reload();
             
            
 
@@ -142,7 +157,7 @@ function paymentprocess(){
 
 //update success payement status in user db and orders db 
 function savetodb(response){
-    alert("payment completed");
+    console.log("payment completed");
     console.log(response)
    // decreasecart();
     db.collection('users').doc(firebase.auth().currentUser.uid).collection('orders').doc(orderid.id).update({
@@ -150,6 +165,7 @@ function savetodb(response){
         paymentid:response.razorpay_payment_id,
         // paymentorderid:response.razorpay_order_id,
         // paymentsignature:response.razorpay_signature,
+        promocode:coupencode,
         paymentAt:firebase.firestore.FieldValue.serverTimestamp()
         
     }).then(()=>{
@@ -170,6 +186,7 @@ function updatepaymentstatus(response){
         paymentid:response.razorpay_payment_id,
         // paymentorderid:response.razorpay_order_id,
         // paymentsignature:response.razorpay_signature,
+        promocode:coupencode,
         paymentAt:firebase.firestore.FieldValue.serverTimestamp()
      })
      cartprice=0;
@@ -250,10 +267,10 @@ function promocodeineligible(){
 // }
 
 function makeorderfail(response){
-    console.log(buyername);
-    console.log(buyerphone);
-    console.log(buyerlocation);
-    console.log(pickupdate,returndate)
+    // console.log(buyername);
+    // console.log(buyerphone);
+    // console.log(buyerlocation);
+    // console.log(pickupdate,returndate)
     console.log("product details",productdetals)
     console.log("total price",promocartprice)
     // orderid=db.collection('orders').doc();
@@ -320,15 +337,18 @@ function decreasecart(){
              
             minuscart(productid,qte);
         })
-    }).then(()=>{
-        console.log("deleting")
-        db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').get().then(snap=>{
-            snap.docs.forEach(nap=>{
-                console.log(nap.id)
-                db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(nap.id).delete();
-            })
-        });location.reload()
     })
+  }
+  function deleteusercart(){
+
+    console.log("deleting cart")
+    db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').get().then(snap=>{
+        snap.docs.forEach(nap=>{
+            console.log(nap.id)
+            db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(nap.id).delete();
+        })
+    })
+
   }    
 
 
@@ -336,11 +356,12 @@ function decreasecart(){
 const promobtn=document.querySelector('#promobtn');
 var promocartprice=0;
 var promocodestatus=0;
+var coupencode=0;
  document.querySelector('.promoerror').style.display="none"
 promobtn.addEventListener('click',(e)=>{
    const promocode=document.querySelector('.promocodefield').value
-   const promoerror=document.querySelector('.promoerror')
-    console.log(promocode,"clicked");
+//    const promoerror=document.querySelector('.promoerror')
+   // console.log(promocode,"clicked");
     document.querySelector('.promoerror').style.display="block"
     setTimeout(function(){
     document.querySelector('.promoerror').style.display="none";
@@ -363,6 +384,8 @@ promobtn.addEventListener('click',(e)=>{
                           promocartprice=Math.round(cartprice-(offer*cartprice));
                           console.log("offer price is ",promocartprice)
                           promocodestatus=1;
+                          coupencode=cap.data().promocode;
+
                           var li22;
                           li22=`
                           <p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
