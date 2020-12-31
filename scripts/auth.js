@@ -219,8 +219,8 @@ db.collection('homesliders').onSnapshot(snapshot=>{
     var sekhar=snapshot.docs;
        sekhar.forEach(sek=>{
         var guide=sek.data();
-        console.log(guide.slider);
-    setupguides(guide.slider)
+        console.log(guide.sliders);
+    setupguides(guide.sliders)
     // setupguides2(cButtons)
     //uniquefeed(cButtons)
     })

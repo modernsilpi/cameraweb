@@ -163,7 +163,7 @@ rent.forEach(rant=>{
       else{
         alert("please login to buy")
         console.log("please login to buy")
-        document.querySelector('.back-layer').style.display="block"
+        document.querySelector('.back-layer2').style.display="block"
       }
     })
   })
@@ -252,7 +252,7 @@ rent.forEach(rant=>{
       else{
         alert("please login to buy")
         console.log("please login to buy")
-        document.querySelector('.back-layer').style.display="block"
+        document.querySelector('.back-layer2').style.display="block"
       }
     })
   })
