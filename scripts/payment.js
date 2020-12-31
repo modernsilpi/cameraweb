@@ -31,7 +31,7 @@ else{
 
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
     snap.docs.forEach(nap=>{
-        productdetals.push(nap.data().name,nap.data().qty,nap.data().price,nap.data().link)
+        productdetals.push(nap.data().name,nap.data().qty,nap.data().price,nap.data().link,nap.data().productid)
     })
 })
   //  alert(`price is ${promocartprice}`);
@@ -166,7 +166,9 @@ function savetodb(response){
         // paymentorderid:response.razorpay_order_id,
         // paymentsignature:response.razorpay_signature,
         promocode:coupencode,
-        paymentAt:firebase.firestore.FieldValue.serverTimestamp()
+        paymentAt:firebase.firestore.FieldValue.serverTimestamp(),
+        send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
+
         
     }).then(()=>{
         return db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
@@ -187,7 +189,8 @@ function updatepaymentstatus(response){
         // paymentorderid:response.razorpay_order_id,
         // paymentsignature:response.razorpay_signature,
         promocode:coupencode,
-        paymentAt:firebase.firestore.FieldValue.serverTimestamp()
+        paymentAt:firebase.firestore.FieldValue.serverTimestamp(),
+        send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
      })
      cartprice=0;
      document.querySelector('.payment-sections').style.display="none";

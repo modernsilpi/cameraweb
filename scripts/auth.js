@@ -15,6 +15,7 @@ firebase.auth().onAuthStateChanged(function(user) {
        li=`<i class="fas fa-user-circle"></i> <a href="#" class="logout-button ">${snap.data().name}</a>`
          document.querySelector('.usernamefield').innerHTML=li;
          document.querySelector('.usernamefield').style.display="block";
+         userstatus=snap.data().status;
      })
     
 
@@ -81,7 +82,10 @@ lverifyotp.addEventListener('click',(e)=>{
 })
 
 
-signupsubmit.addEventListener('click',(e)=>{
+// signupsubmit.addEventListener('click',(e)=>{
+  function accessto(){
+
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
          console.log("user login")
@@ -95,9 +99,11 @@ signupsubmit.addEventListener('click',(e)=>{
              location:signinlocation.value,
              adharfront:adharcardf,
              adharback:adharcardb,
-             promocode:"eligible"
+             promocode:"eligible",
+             status:"active"
          }).then(function(){ 
           document.querySelector('.back-layer').style.display="none";
+          return db.collection('users').doc(user.uid).set({dummy:'this is because to view this doc in control panel'})
       
           })
           .catch(function(err){
@@ -109,9 +115,9 @@ signupsubmit.addEventListener('click',(e)=>{
       })
   
  
-
+    }
     
-})
+// })
 var adharcardf;
 var adharcardb;
 //adhar back
@@ -280,7 +286,8 @@ function advancedsearch(productid){
               name:pan.data().name,
               price:pan.data().price,
               qty:1,
-              link:pan.data().link
+              link:pan.data().link,
+              productid:pan.id
             })
            }
          })
@@ -486,20 +493,25 @@ firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
 
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(pap=>{
-  let changes=pap.docChanges();
-  changes.forEach(change => {
-      if(change.type=='added'){
-          indexcart(change.doc);
-      } else if(change.type=='removed'){
-          let div=homecart.querySelector('[id=' + change.doc.id + ']');
-          homecart.removeChild(div);
-      } else if(change.type=='modified'){
-          let div=homecart.querySelector('[id=' + change.doc.id + ']');
-          homecart.removeChild(div);
-          indexcart(change.doc);
-      }
+  homecart.innerHTML='';
+  // let changes=pap.docChanges();
+  // changes.forEach(change => {
+  //     if(change.type=='added'){
+  //         indexcart(change.doc);
+  //     } else if(change.type=='removed'){
+  //         let div=homecart.querySelector('[id=' + change.doc.id + ']');
+  //         homecart.removeChild(div);
+  //     } else if(change.type=='modified'){
+  //         let div=homecart.querySelector('[id=' + change.doc.id + ']');
+  //         homecart.removeChild(div);
+  //         indexcart(change.doc);
+  //     }
      
+  // })
+  pap.forEach(nap=>{
+    indexcart(nap)
   })
+  
 })
   }})
 
@@ -523,31 +535,6 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
               // console.log("object keys",Object.keys(id2.data()).length)
           console.log("path",name);
           minuscart2(productid,qte,id2,name);
-        
-          // db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
-          //   console.log("category is",name)
-          //  snapp.docs.forEach(pan=>{
-          //    if(pan.id==productid){
-          //     console.log('your product details',pan.data())
-          //     console.log(`product id ${productid},searchid ${pan.id}, qty is ${pan.data().qty} category${name}`);
-          //     db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).get().then(cnap=>{
-          //       console.log(cnap.data())
-          //       qte=cnap.data().qty-qte;
-          //       console.log(qte)
-          //     }).then(()=>{
-          //       console.log("updating ")
-          //       return db.collection('categorybutton').doc(id2.id).collection(name).doc(productid).update({
-          //         //  qty:firebase.firestore.FieldValue.increment(`-${qte}`)
-          //         qty:qte
-                
-          //       })
-
-          //     })
-
-          //    }
-          //  })
-      
-          // })
       }
       })
     })

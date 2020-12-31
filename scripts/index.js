@@ -1,5 +1,6 @@
 var mainuser;
 var mainusercond=0;
+var userstatus;
 const loginli=document.querySelector('.loginli');
 const registerli=document.querySelector('.registerli');
 const logoutli=document.querySelector('.logoutli');
@@ -43,29 +44,12 @@ firebase.auth().onAuthStateChanged(function(user) {
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-       document.querySelector('.payment-sections').style.display="block";
-      //  db.collection('users').doc(user.uid).collection('cart').onSnapshot(pap=>{
-      //   let changes=pap.docChanges();
-      //   changes.forEach(change => {
-      //       if(change.type=='added'){
-      //           indexcart(change.doc);
-      //       } else if(change.type=='removed'){
-      //           let div=homecart.querySelector('[id=' + change.doc.id + ']');
-      //           homecart.removeChild(div);
-      //       } else if(change.type=='modified'){
-      //           let div=homecart.querySelector('[id=' + change.doc.id + ']');
-      //           homecart.removeChild(div);
-      //           indexcart(change.doc);
-      //       }
-           
-      //   })
-      // })
-
-
-       
+       document.querySelector('.payment-sections').style.display="block";       
       } else {
        console.log("user not login")
+       document.querySelector('.payment-sections').style.display="none";
        alert("please login or register to view cart")
+       
 
       }
     });
@@ -157,8 +141,12 @@ rent.forEach(rant=>{
     document.querySelector('.payment-sections').style.display="block";
    
     console.log(ids)
-   advancedsearch(ids);
-   rant.setAttribute('href', "#payment-sections1");
+  if(userstatus==="active"){
+    advancedsearch(ids);
+    rant.setAttribute('href', "#payment-sections1");
+  }
+  else alert("Your temporarly blocked")
+
       }
       else{
         alert("please login to buy")
@@ -246,8 +234,11 @@ rent.forEach(rant=>{
     document.querySelector('.payment-sections').style.display="block";
    
     console.log(ids)
-   advancedsearch(ids);
-   rant.setAttribute('href', "#payment-sections1");
+    if(userstatus==="active"){
+      advancedsearch(ids);
+      rant.setAttribute('href', "#payment-sections1");
+    }
+    else console.log("Your temporarly blocked");
       }
       else{
         alert("please login to buy")
@@ -531,8 +522,8 @@ const fridge=document.querySelector('.fridge');
 function displayorders(data){
  // fridge.innerHTML="";
   
-  if(data.products.length>4){
-    for(var i=0;i<data.products.length;i=i+4){
+  if(data.products.length>5){
+    for(var i=0;i<data.products.length;i=i+5){
       const div=document.createElement('div')
       div.setAttribute('class',"my-orders")
       var li=`     
