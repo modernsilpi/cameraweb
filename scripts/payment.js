@@ -326,6 +326,8 @@ function makeorderfail(response){
 
 
 
+
+    
 // decrease cart in the website 
 var productid=[];
 var qte=[];

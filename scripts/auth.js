@@ -541,6 +541,7 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
   
   }
 
+  
   function minuscart2(productid,qte,id2,name){
 
     db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{

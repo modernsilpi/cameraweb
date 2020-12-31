@@ -55,6 +55,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     });
   
 
+    
+
   })
 
 const block=document.querySelector('.carousel-inner');
