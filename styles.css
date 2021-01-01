@@ -542,6 +542,25 @@ nav {
 .card-body {
     padding: 4px;
 }
+
+/*brands*/
+
+.brands {
+    border:1px solid rgb(58, 58, 58);
+    background: #2a2a2b;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 26px;
+    height: 80px;
+}
+
+.social-media a {
+    text-decoration: none;
+    color: black;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
 /*footer*/
 
 footer {
@@ -559,6 +578,10 @@ footer {
 
 .right-footer {
     float: right;
+}
+
+.right-footer p {
+    margin-top: 20px;
 }
 
 .right-footer ul{
@@ -605,19 +628,27 @@ footer {
     /*carousel section*/
 
     .carousel-container {
+        /* display: none; */
         width: 100%;
-        /* margin: 0; */
+        margin: 0;
         padding: 0;
     }
 
     .carousel-section {
         margin: 120px 0 0 0;
-
+        
         width: 400px;
     }
 
     .carousel {
         height: 350px;
+        width: 100%;
+        margin: 0;
+    }
+
+    .container {
+        /* margin: 0;
+        padding: 0;  */
         width: 100%;
     }
 
@@ -630,6 +661,92 @@ footer {
     .row {
         margin-left: 20px;
     }
+
+    /*cart*/
+
+    .cart-table {
+        width: 98%;
+        margin-left: 1%;
+    }
+
+    .cart-table div div {
+        width: auto;
+        margin-left: 12px;
+        padding: 8px 0 0 0 ;
+    }
+
+    .cart-table div div img {
+        height: 35px;
+        width: 35px;
+        margin-top: 10px;
+    }
+
+    .cart-text p {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .cart-table .control .pl-mi {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .cart-table .control .count-span {
+        margin-top: 18px;
+        width: 30px;
+        font-size: 16px;
+    }
+
+    .input-group1 {
+        display: block;
+    }
+
+    .input-group {
+        margin-left: 10px;
+    }
+
+    .totalCart {
+        margin-left: 0;
+    }
+    /*date pickers*/
+
+    .date-selector-div {
+        margin: 0 auto 25px auto;
+        width: 98%;
+    }
+    
+    .date-pickers {
+        display: block;
+    }
+    
+    .left-date p, .right-date p{
+        width: 250px;
+        font-size: 11px;
+    }
+    
+    .left-date {
+         margin-left: 0; 
+         float: none;
+    }
+
+    .booking-heading {
+        width: 98%;
+    }
+
+    .payment-sections {
+        width: 100%;
+        margin-left: 5%;
+    }
+    
+     .right-date {
+        margin-left:0;
+        float: none;
+    }
+
+    .star {
+        font-size: 24px;
+    }
+    
 
     /*footer*/
 
