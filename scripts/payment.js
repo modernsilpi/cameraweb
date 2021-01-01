@@ -182,6 +182,7 @@ function savetodb(response){
   //  updatepaymentstatus(response);
 }
 function updatepaymentstatus(response){
+    console.log("promocode updated ads",coupencode)
     console.log("updating payment stauts in orders ")
      db.collection('orders').doc(orderid.id).update({
         paymentstatus:"success",
@@ -397,6 +398,7 @@ promobtn.addEventListener('click',(e)=>{
                           `;
                           carttotal.innerHTML=li22;
                           promoerror.innerHTML="Promo added successfully"
+                         
             
                         }
                         else if(cap.data().type=="price"){
@@ -404,12 +406,14 @@ promobtn.addEventListener('click',(e)=>{
                             promocartprice=Math.round(cartprice-cap.data().off);
                             console.log("offer price is ",promocartprice)
                             promocodestatus=1;
+                            coupencode=cap.data().promocode;
                             var li22;
                             li22=`
                             <p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
                             `;
                             carttotal.innerHTML=li22;
-                            promoerror.innerHTML="Promo added successfully"
+                            promoerror.innerHTML="Promo added successfully";
+                            console.log(coupencode)
                             
                         }
                     }
