@@ -11,6 +11,15 @@ html {
 }
 
 /* user dashboard */
+
+.verify-input, .lverifyotp {
+    display: none;
+}
+
+.lgenerateotp {
+    margin-top: 10px;
+}
+
 .userdashboard{
     text-align: center;
     margin-top: 20px;

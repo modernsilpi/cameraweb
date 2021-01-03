@@ -166,7 +166,8 @@ function savetodb(response){
         // paymentorderid:response.razorpay_order_id,
         // paymentsignature:response.razorpay_signature,
         promocode:coupencode,
-        paymentAt:firebase.firestore.FieldValue.serverTimestamp(),
+        dateofpay:new Date().toDateString(),
+        timeofpay:new Date().toTimeString(),
         send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
 
         
@@ -189,7 +190,8 @@ function updatepaymentstatus(response){
         // paymentorderid:response.razorpay_order_id,
         // paymentsignature:response.razorpay_signature,
         promocode:coupencode,
-        paymentAt:firebase.firestore.FieldValue.serverTimestamp(),
+        dateofpay:new Date().toDateString(),
+        timeofpay:new Date().toTimeString(),
         send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
      })
      cartprice=0;
