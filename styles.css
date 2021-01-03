@@ -247,7 +247,13 @@ nav {
 .buttons-container {
     margin: 50px auto;
     text-align: center;
+    margin-left: 430px;
+    display: inline-flex;
 }
+ 
+.dropdown{
+    margin-right: 15px;
+  }
 
 .btn-group {
     margin-left: 20px;
