@@ -12,12 +12,16 @@ html {
 
 /* user dashboard */
 
-.verify-input, .lverifyotp {
+.regverify, .verifyotp, .regname, .regaadhar, .location, .regformcheck, .signupsubmit, .verify-input, .lverifyotp {
     display: none;
 }
 
-.lgenerateotp {
+.lgenerateotp, .generateotp {
     margin-top: 10px;
+}
+
+.verifyotp {
+    margin-bottom: 10px;
 }
 
 .userdashboard{
@@ -224,6 +228,7 @@ nav {
 /*carousel section*/
 
 .carousel-section {
+    /* display: none; */
     margin-top: 100px;
     background:  #2a2a2b;
     padding: 10px;
@@ -262,6 +267,16 @@ nav {
 .row {
     margin-left: 50px;
 }
+
+/* .unique {
+    margin-left: 0;
+    padding: 0;
+}
+
+.product-container {
+    margin-left: 0;
+    padding: 0;
+} */
 
 /*date selector*/
 
@@ -614,20 +629,52 @@ footer {
         width: 100%;
     }
 
+    /*registration and login forms*/
+
+    .login-form {
+        width: 300px;
+        height: 500px;
+        margin: 50px 0 0 20px;
+        padding: 10px;
+    }
+    
+    .back-layer, .back-layer2, .back-layer3 {
+        margin-top: -400px;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        display: none;
+    }
+    .back-layer3{
+        margin-top: -10px;
+    }
+    .close-btn {
+        margin: 20px 10px 0 0;
+    }
+    
+
     /*navbar*/
 
     nav {
-        height: 70px;
+        height: auto;
     }
 
     .navbar-brand img {
         margin-top: 0;
+        margin-left: 0;
+        height: 35px;
+        width: 35px;
     }
 
     .navbar-brand p {
-        margin-top: 0;
-        font-size: 18px;
+        margin-top: 5px;
+        margin-left: 7px;
+        font-size: 16px;
     }
+
+    /* .nav-container {
+        width: 100%;
+    } */
 
     .nav-maps ul {
         margin-top: 0;
@@ -644,9 +691,8 @@ footer {
     }
 
     .carousel-section {
-        margin: 120px 0 0 0;
-        
-        width: 400px;
+        margin: 120px 1% 0 1%;
+        width: 98%;
     }
 
     .carousel {
@@ -668,7 +714,12 @@ footer {
     /*products card*/
 
     .row {
-        margin-left: 20px;
+        margin-left: 5%;
+    }
+
+    .col-lg-3 {
+       margin-left: 0;
+       margin-right: 0;
     }
 
     /*cart*/

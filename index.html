@@ -56,7 +56,7 @@
         </div>        
     </header>
 
-    <div class="container">
+    <div class="container nav-container">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         
         <a class="navbar-brand" href="#">
@@ -190,18 +190,20 @@
         </div>
        
        
-        <div class="form-group">
+        <div class="form-group regverify">
           <label for="exampleInputPassword1">Validation</label>
           <input type="password" class="form-control verificationcode" id="exampleInputPassword1" placeholder="Enter your otp here" required>
         </div>
         <button type="button" class="btn btn-light verifyotp" >Submit</button>
-        <label for="exampleInputEmail1">Name</label>
-        <input type="text" class="form-control signinname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
-        <small id="emailHelp2" class="form-text text-muted">We'll never share your details with anyone else.</small>
+        <div class="regname">
+          <label for="exampleInputEmail1">Name</label>
+          <input type="text" class="form-control signinname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
+          <small id="emailHelp2" class="form-text text-muted">We'll never share your details with anyone else.</small>
+        </div>
       </div>
       <div id="recaptcha-container"></div>
 
-      <div class="form-group">
+      <div class="form-group regaadhar">
         <label for="adharfront">Upload your aadhaar for address proof</label>
         <input type="file" class="form-control adharfront" id="adharfront"  placeholder="front" required>
         <progress value="0" max="100" id="uploaderf">0%</progress>
@@ -218,7 +220,7 @@
 
       
      
-      <div class="form-check">
+      <div class="form-check regformcheck">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
@@ -279,7 +281,7 @@
 
     <!--Products-section-->
       <section>
-          <div class="container">
+          <div class="container product-container">
               <div class="row unique">
                   
     </div>
@@ -484,6 +486,19 @@
   $(".lgenerateotp").on("click", function() {
      $(".verify-input").css("display", "block");
      $(".lverifyotp").css("display", "block");
+  });
+
+  $(".generateotp").on("click", function() {
+     $(".regverify").css("display", "block");
+     $(".verifyotp").css("display", "block");
+  });
+
+  $(".verifyotp").on("click", function() {
+     $(".regname").css("display", "block");
+     $(".regaadhar").css("display", "block");
+     $(".location").css("display", "block");
+     $(".regformcheck").css("display", "block");
+     $(".signupsubmit").css("display", "block");
   });
 </script>
 
