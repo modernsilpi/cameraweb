@@ -168,6 +168,7 @@ function savetodb(response){
         promocode:coupencode,
         dateofpay:new Date().toDateString(),
         timeofpay:new Date().toTimeString(),
+        month:new Date().getMonth(),
         send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
 
         
@@ -192,6 +193,7 @@ function updatepaymentstatus(response){
         promocode:coupencode,
         dateofpay:new Date().toDateString(),
         timeofpay:new Date().toTimeString(),
+        month:new Date().getMonth(),
         send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
      })
      cartprice=0;
@@ -406,6 +408,7 @@ promobtn.addEventListener('click',(e)=>{
                             promocartprice=Math.round(cartprice-cap.data().off);
                             console.log("offer price is ",promocartprice)
                             promocodestatus=1;
+                            coupencode=cap.data().promocode;
                             var li22;
                             li22=`
                             <p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
