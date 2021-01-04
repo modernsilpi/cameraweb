@@ -201,11 +201,15 @@ function append1(data){
       //edit product
       const buy=document.getElementById(`e${nap.id}`)
       buy.addEventListener('click',(e)=>{
+        
         if(nap.data().qty>0){
+          if(userstatus=="active"){
         advancedsearch(nap.id);
         buy.setAttribute('href', "#payment-sections1");
         document.querySelector('.payment-sections').style.display="block";
         }
+        else alert("login")
+      }
         else alert("Not available right now")
       })
       
