@@ -180,7 +180,7 @@
     <span class="close-btn">X</span>
   </div>
   <section class="login-form">
-    <form onsubmit="accessto();return false">
+    <form onsubmit="if(document.getElementById('checkboxx').checked) { accessto(); return false } else { alert('Please check terms&conditions'); return false; }">
       
       <div class="form-group">
         <div class="form-group">
@@ -188,7 +188,7 @@
           <input type="text" class="form-control phonenumber " id="exampleInputPassword" placeholder="Your phone number" required>
           <button type="button" class="btn btn-light generateotp" >Send OTP</button>
         </div>
-       
+        <div id="recaptcha-container"></div>
        
         <div class="form-group">
           <label for="exampleInputPassword1">Validation</label>
@@ -199,28 +199,35 @@
         <input type="text" class="form-control signinname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
         <small id="emailHelp2" class="form-text text-muted">We'll never share your details with anyone else.</small>
       </div>
-      <div id="recaptcha-container"></div>
+      <input type="text" class="form-control" id="altphone" placeholder="Aleternative phone number" required>
 
       <div class="form-group">
-        <label for="adharfront">Upload your aadhaar for address proof</label>
+        <label for="adharfront">Upload your adharcard(front)</label>
         <input type="file" class="form-control adharfront" id="adharfront"  placeholder="front" required>
         <progress value="0" max="100" id="uploaderf">0%</progress>
-        <label for="adharback">Upload your aadhaar for address proof</label>
+        <label for="adharback">Upload adharcard(back)</label>
         <input type="file" class="form-control adharback" id="adharback" placeholder="back" required>
         <progress value="0" max="100" id="uploaderb">0%</progress>
-
+ 
+        <label for="otherid">Any other id(pan,driving liecense etc..,)</label>
+        <input type="file" class="form-control adharfront" id="otherid"  placeholder="front" required>
+        <progress value="0" max="100" id="otheridp">0%</progress>
       </div>
 
       <div class="form-group location">
         <label for="exampleInputPassword1">Location</label>
         <input type="text" class="form-control signinlocation"  placeholder="Enter your location" required>
+        <label for="exampleInputPassword1">Your profession</label>
+        <input type="text" class="form-control signinprofession"  placeholder="Enter your profession here" required>
+
+
       </div>
 
       
      
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        <input type="checkbox" class="form-check-input" id="checkboxx">
+        I have read and agree to the Terms and Conditions and Privacy Policy
       </div>
       <button type="submit" class="btn btn-light signupsubmit" >Submit</button>
     </form>

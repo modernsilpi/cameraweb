@@ -3,6 +3,9 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-contai
 window.lrecaptchaVerifier = new firebase.auth.RecaptchaVerifier('lrecaptcha-container');
 const adharfront=document.querySelector('.adharfront')
 const adharback=document.querySelector('.adharback')
+const otherid=document.querySelector('#otherid')
+
+
 var mainuser;
 var mainusercond;
 firebase.auth().onAuthStateChanged(function(user) {
@@ -90,8 +93,9 @@ lverifyotp.addEventListener('click',(e)=>{
         if (user) {
          console.log("user login")
          const signinname=document.querySelector('.signinname')
-      
-        
+         const altnumber=document.querySelector('#altphone')
+         const profession=document.querySelector('.signinprofession')
+
          const signinlocation=document.querySelector('.signinlocation')
          db.collection('users').doc(user.uid).collection('profile').doc(user.uid).set({
              name:signinname.value,
@@ -100,7 +104,10 @@ lverifyotp.addEventListener('click',(e)=>{
              adharfront:adharcardf,
              adharback:adharcardb,
              promocode:"eligible",
-             status:"active"
+             status:"active",
+             altnumber:altnumber.value,
+             profession:profession.value,
+             otherid:otheridlink
          }).then(function(){ 
           document.querySelector('.back-layer').style.display="none";
           return db.collection('users').doc(user.uid).set({dummy:'this is because to view this doc in control panel'})
@@ -120,6 +127,39 @@ lverifyotp.addEventListener('click',(e)=>{
 // })
 var adharcardf;
 var adharcardb;
+var otheridlink;
+
+//other any id proof
+otherid.addEventListener('change',(e)=>{
+  var file=e.target.files[0];
+  console.log("other id click")
+  uploaderb=document.querySelector('#otheridp');
+ // crate storage ref
+var storageref=storage.ref(`users/${mainuser.uid}/profile/` + file.name);
+
+   //upload file
+ var task=storageref.put(file);
+
+    //update progress bar
+task.on('state_changed',
+function progress(snapshot){
+  var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+  uploaderb.value=percentage;
+},
+  function error(err){
+  console.log(err)
+},
+function complete(){
+console.log("other id uploaded successfully ")
+task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  console.log('File available at', downloadURL);
+  otheridlink=downloadURL
+});
+}
+);
+
+})
+
 //adhar back
 adharback.addEventListener('change',(e)=>{
     var file=e.target.files[0];

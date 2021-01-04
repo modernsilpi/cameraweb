@@ -201,10 +201,14 @@ function append1(data){
       //edit product
       const buy=document.getElementById(`e${nap.id}`)
       buy.addEventListener('click',(e)=>{
+        if(nap.data().qty>0){
         advancedsearch(nap.id);
         buy.setAttribute('href', "#payment-sections1");
         document.querySelector('.payment-sections').style.display="block";
+        }
+        else alert("Not available right now")
       })
+      
 
 
   })
@@ -724,6 +728,8 @@ function displayorders(data){
   }
 
 }
+
+
 
 
 
