@@ -124,7 +124,7 @@ header ul li {
 
 .login-form {
     width: 350px;
-    height: 550px;
+    height: 500px;
     margin: 80px 0 0 500px;
     padding: 10px;
     background:  #2a2a2b;
@@ -249,9 +249,33 @@ nav {
 
 /*category buttons*/
 
-.buttons-container {
-    margin: 50px auto;
+/* .turnon {
     text-align: center;
+
+} */
+
+.buttons-container {
+    margin: 50px 4%;
+    text-align: center;
+    width: 90%;
+    display: inline-flex;
+}
+
+.btndarks1 {
+    width: 100px;
+    margin-bottom: 5px;
+}
+
+.divvv {
+    margin-right: -15px;
+}
+
+.btnsrow {
+    text-align: center;
+}
+
+.dropdown {
+    margin-right: 15px;
 }
 
 .btn-group {
@@ -623,6 +647,97 @@ footer {
     color: white;
 }
 
+@media screen and (max-width:1024px) {
+
+    .nav-lists {
+        margin-left: 25%;
+    }
+
+    .nav-maps ul {
+        left: 70%;
+    }
+    /*cart*/
+
+    .cart-table {
+        width: 98%;
+        margin-left: 1%;
+    }
+
+    .cart-table div div img {
+        height: 50px;
+        width: 50px;
+        margin-top: 10px;
+    }
+
+    .cart-text p {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .cart-table .control .pl-mi {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .cart-table .control .count-span {
+        margin-top: 18px;
+        width: 30px;
+        font-size: 16px;
+    }
+
+    .input-group1 {
+        display: block;
+    }
+
+    .input-group {
+        margin-left: 10px;
+    }
+
+    .totalCart {
+        margin-left: 0;
+    }
+    /*date pickers*/
+
+    .date-selector-div {
+        margin: 0 auto 25px auto;
+        width: 98%;
+    }
+    
+    .date-pickers {
+        display: block;
+    }
+    
+    .left-date p, .right-date p{
+        width: 250px;
+        font-size: 11px;
+    }
+    
+    .left-date {
+         margin-left: 0; 
+         float: none;
+    }
+
+    .booking-heading {
+        width: 98%;
+    }
+
+    .payment-sections {
+        width: 98%;
+        margin-left: 1%;
+    }
+    
+     .right-date {
+        margin-left:0;
+        float: none;
+    }
+
+    .star {
+        font-size: 24px;
+    }
+    
+
+}
+
 @media screen and (max-width:420px) {
 
     header {
@@ -677,8 +792,9 @@ footer {
     } */
 
     .nav-maps ul {
+        font-size: 11px;
         margin-top: 0;
-        left: 50%;
+        left: 40%;
     }
 
     /*carousel section*/
@@ -730,8 +846,8 @@ footer {
     }
 
     .cart-table div div {
-        width: auto;
-        margin-left: 12px;
+        width: 19%;
+        margin-left: 7%;
         padding: 8px 0 0 0 ;
     }
 
@@ -794,8 +910,8 @@ footer {
     }
 
     .payment-sections {
-        width: 100%;
-        margin-left: 5%;
+        width: 98%;
+        margin-left: 1%;
     }
     
      .right-date {

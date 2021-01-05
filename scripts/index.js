@@ -61,198 +61,364 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 const block=document.querySelector('.carousel-inner');
 const indicators = document.querySelector('.carousel-indicators');
-const turnon=document.querySelector('.turnon');
-const categoryButtons = document.querySelector('.buttons-container');
 
-let unique=document.querySelector('.unique')
+
+// let unique=document.querySelector('.unique')
 var sendid;
 var rentstate;
 var maincategory;
 
 
-  if(categoryButtons){
-categoryButtons.addEventListener("click", e=>{
-unique.innerHTML='';
-   console.log("clicked")
-  const target=e.target.closest('.camerabutton');
-  if (!target){console.log("problem1"); return};
-  const id = target.dataset.id;
-   console.log(id)
-   sendid= id;
-   maincategory=id
-  database2(id);
 
-  
-},true)
 
-  }
 
-if(categoryButtons){
-  categoryButtons.addEventListener("click", e =>{
-    const target=e.target.closest('.camcut')
-    if (!target) return;
-    const id = target.dataset.id;
-     console.log(id)
-     
-    database(sendid,id);
-  })
-  
-  
-  } 
-function uniquefeed2(data){ //only subcategory function here
-  console.log("uniquefeed2")
-  let html='';
-  var li;
-  data.forEach(cam=>{
-    li=`  
-    <div class="marginCard"> 
-    <div class="col-lg-3 col-md-4 col-sm-6">  
-    <div class="card" style="width: 18rem;" id="${cam.id}">
-        <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title" >${cam.data().name}</h5>
-          <div class="rate-qty">
-          <p class="card-text">Qty: ${cam.data().qty}</p>
-          <p class="card-text">&#8377; ${cam.data().price}</p>
-          </div>
-          <a href="#" class="btn btn-dark rentit" id="${cam.id}"><b>Book</b></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const buttonscontainer=document.querySelector('.btnsrow')
+db.collection('categorybutton').get().then(snap=>{
+    snap.forEach(nap=>{
+        let maincat;
+     //   console.log(nap.data())
+        const div=document.createElement('div');
+        div.innerHTML=`
+       <div class="col-lg-2 col-md-3 col-sm-4"
+        <div class="dropdown">
+        <button class="btn btn-dark dropdown-toggle btndarks1" type="button" id="main${nap.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          ${nap.id}
+        </button>
+        <div class="dropdown-menu" id="sub${nap.id}" aria-labelledby="dropdownMenuButton">
+
         </div>
-        </div>
-        </div>
-  </div>
-    `
-    html+=li;
-    unique.innerHTML=html
+      </div>
+      </div>      
+        `;
 
-  
-  })
-  const rent =document.querySelectorAll('.rentit');
-//const paymentSections = document.querySelector('.payment-sections');
-rent.forEach(rant=>{
-  rant.addEventListener('click',e=>{
-    cartprice=0;
-    console.log("rented")
-  //  paymentSections.style.display = "block";
-   
-  
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        var ids =e.target.parentElement.parentElement.getAttribute('id')
-    
-       document.querySelector('.usercart').style.display="block"
-    document.querySelector('.payment-sections').style.display="block";
-   
-    console.log(ids)
-  if(userstatus==="active"){
-    advancedsearch(ids);
-    rant.setAttribute('href', "#payment-sections1");
-  }
-  else alert("Your temporarly blocked")
+        buttonscontainer.append(div)
 
-      }
-      else{
-        alert("please login to buy")
-        console.log("please login to buy")
-        document.querySelector('.back-layer').style.display="block"
-      }
+        const subcat=document.getElementById(`sub${nap.id}`)
+        for (var name of Object.keys(nap.data())) {
+            console.log(name)
+        const div2=document.createElement('div')
+        div2.innerHTML=`
+        <a class="dropdown-item camcut" data-id="${name}" id="${name}" href="#">${name}</a>
+        `;
+        subcat.append(div2);
+        const sub=document.getElementById(`${name}`)
+        sub.addEventListener('click',(e)=>{
+            const target=e.target.closest('.camcut')
+            if (!target) return;
+            const id = target.dataset.id;
+            subcategory=id;
+             console.log(maincat,id)
+          
+            search2(maincat,id)
+
+        })
+        }
+
+        const mainbtn=document.getElementById(`main${nap.id}`);
+        mainbtn.addEventListener('click',(e)=>{
+             console.log(nap.id)
+            maincat=nap.id
+
+            search1(maincat)
+        })
+
     })
-  })
 })
 
+
+
+
+
+//search all prodcuts here
+function search1(id){
+  let productdb=db.collection('categorybutton')
+  productdb.doc(id).get().then(snap=>{
+      unique.innerHTML='';
+      for (var name of Object.keys(snap.data())) {
+          console.log(name)
+          productdb.doc(id).collection(name).get().then(nap=>{
+           
+              nap.forEach(cap=>{
+                  // console.log(cap.data())
+
+              })
+              append1(nap)
+          })
+      }
+  })
+}
+
+//search only selected product
+function search2(id,sub){
+  let productdb=db.collection('categorybutton')
+  productdb.doc(id).collection(sub).get().then(nap=>{
+      unique.innerHTML='';
+      append1(nap)
+  })
+
+}
+
+//append product here
+const unique=document.querySelector('.unique')
+function append1(data){
+
+  data.forEach(nap=>{
+      const div=document.createElement('div')
+      div.setAttribute('class','marginCard')
+      // div.setAttribute('id',nap.id)
+      div.innerHTML=`
+      <div class="col-lg-3 col-md-4 col-sm-6">  
+      <div class="card" style="width: 18rem;" id="${nap.id}">
+          <img class="card-img-top" src="${nap.data().link}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title" >${nap.data().name}</h5>
+            <div class="rate-qty">
+            <p class="card-text">qty: ${nap.data().qty}</p>
+            <p class="card-text">price: &#8377; ${nap.data().price}</p>
+            </div><br>
+            <a href="#" class="btn btn-primary rentit" id="e${nap.id}"><b>Book</b></a>
+          </div>
+          </div>
+          </div>
+      `
+      unique.append(div);
+
+      //edit product
+      const buy=document.getElementById(`e${nap.id}`)
+      buy.addEventListener('click',(e)=>{
+        
+        if(nap.data().qty>0){
+          if(userstatus=="active"){
+        advancedsearch(nap.id);
+        buy.setAttribute('href', "#payment-sections1");
+        document.querySelector('.payment-sections').style.display="block";
+        }
+        else alert("login")
+      }
+        else alert("Not available right now")
+      })
+      
+
+
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   if(categoryButtons){
+// categoryButtons.addEventListener("click", e=>{
+// unique.innerHTML='';
+//    console.log("clicked")
+//   const target=e.target.closest('.camerabutton');
+//   if (!target){console.log("problem1"); return};
+//   const id = target.dataset.id;
+//    console.log(id)
+//    sendid= id;
+//    maincategory=id
+//   database2(id);
+
+  
+// },true)
+
+//   }
+
+// if(categoryButtons){
+//   categoryButtons.addEventListener("click", e =>{
+//     const target=e.target.closest('.camcut')
+//     if (!target) return;
+//     const id = target.dataset.id;
+//      console.log(id)
+     
+//     database(sendid,id);
+//   })
+  
+  
+//   }    
+// function uniquefeed2(data){ //only subcategory function here
+//   console.log("uniquefeed2")
+//   let html='';
+//   var li;
+//   data.forEach(cam=>{
+//     li=`  
+//     <div class="marginCard"> 
+//     <div class="col-lg-3 col-md-4 col-sm-6">  
+//     <div class="card" style="width: 18rem;" id="${cam.id}">
+//         <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
+//         <div class="card-body">
+//           <h5 class="card-title" >${cam.data().name}</h5>
+//           <div class="rate-qty">
+//           <p class="card-text">Qty: ${cam.data().qty}</p>
+//           <p class="card-text">&#8377; ${cam.data().price}</p>
+//           </div>
+//           <a href="#" class="btn btn-dark rentit" id="${cam.id}"><b>Book</b></a>
+//         </div>
+//         </div>
+//         </div>
+//   </div>
+//     `
+//     html+=li;
+//     unique.innerHTML=html
+
+  
+//   })
 //   const rent =document.querySelectorAll('.rentit');
-//  // const paymentSections = document.querySelector('.payment-sections');
-//   rent.forEach(rant=>{
-//     rant.addEventListener('click',e=>{
-//       cartprice=0;
-//       console.log("rented")
-//     //  paymentSections.style.display = "block";
-//     //  rant.setAttribute('href', "#payment-sections1");
+// //const paymentSections = document.querySelector('.payment-sections');
+// rent.forEach(rant=>{
+//   rant.addEventListener('click',e=>{
+//     cartprice=0;
+//     console.log("rented")
+//   //  paymentSections.style.display = "block";
+   
+  
+//     firebase.auth().onAuthStateChanged(function(user) {
+//       if (user) {
+//         var ids =e.target.parentElement.parentElement.getAttribute('id')
+    
+//        document.querySelector('.usercart').style.display="block"
 //     document.querySelector('.payment-sections').style.display="block";
-//       var ids =e.target.getAttribute('id')
-//       console.log(ids)
-//     //  search2(ids)// this is for add product to user cart db
-//       // usercart();
-//     //  search(maincategory,ids);
-//     advancedsearch(ids)
+   
+//     console.log(ids)
+//   if(userstatus==="active"){
+//     advancedsearch(ids);
+//     rant.setAttribute('href', "#payment-sections1");
+//   }
+//   else alert("Your temporarly blocked")
+
+//       }
+//       else{
+//         alert("please login to buy")
+//         console.log("please login to buy")
+//         document.querySelector('.back-layer').style.display="block"
+//       }
 //     })
 //   })
-  // $(".rentit").on("click",function(){
-  //   console.log("renteddd")
-  // });
+// })
 
-}
 
-function uniquefeed3(data){ // this function for append all products including subcategories
- // console.log("feed",data)
-  console.log("uniquefeed3")
+// }
+
+// function uniquefeed3(data){ // this function for append all products including subcategories
+//  // console.log("feed",data)
+//   console.log("uniquefeed3")
  
-  let html='';
-  var li;
-data.forEach(nup=>{
-  console.log(nup);
+//   let html='';
+//   var li;
+// data.forEach(nup=>{
+//   console.log(nup);
 
-   nup.forEach(cam=>{
+//    nup.forEach(cam=>{
 
-    console.log("id",cam.id)
-    li=`  
-    <div class="marginCard"> 
-    <div class="col-lg-3 col-md-4 col-sm-6">  
-    <div class="card" style="width: 18rem;" id="${cam.id}">
-        <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title" >${cam.data().name}</h5>
-          <div class="rate-qty">
-          <p class="card-text">Qty: ${cam.data().qty}</p>
-          <p class="card-text">&#8377; ${cam.data().price}</p>
-          </div>
-          <a href="#" class="btn btn-dark rentit" id="${cam.id}"><b>Book</b></a>
-        </div>
-        </div>
-        </div>
-  </div>
-    `
-    html+=li;
-    unique.innerHTML=html
-   // unique.appendChild(div)
-  // console.log(cam.data().name)
-  })
+//     console.log("id",cam.id)
+//     li=`  
+//     <div class="marginCard"> 
+//     <div class="col-lg-3 col-md-4 col-sm-6">  
+//     <div class="card" style="width: 18rem;" id="${cam.id}">
+//         <img class="card-img-top" src="${cam.data().link}" alt="Card image cap">
+//         <div class="card-body">
+//           <h5 class="card-title" >${cam.data().name}</h5>
+//           <div class="rate-qty">
+//           <p class="card-text">Qty: ${cam.data().qty}</p>
+//           <p class="card-text">&#8377; ${cam.data().price}</p>
+//           </div>
+//           <a href="#" class="btn btn-dark rentit" id="${cam.id}"><b>Book</b></a>
+//         </div>
+//         </div>
+//         </div>
+//   </div>
+//     `
+//     html+=li;
+//     unique.innerHTML=html
+//    // unique.appendChild(div)
+//   // console.log(cam.data().name)
+//   })
   
   
-})
-const rent =document.querySelectorAll('.rentit');
-//const paymentSections = document.querySelector('.payment-sections');
-rent.forEach(rant=>{
-  rant.addEventListener('click',e=>{
-    cartprice=0;
-    console.log("rented")
-  //  paymentSections.style.display = "block";
+// })
+// const rent =document.querySelectorAll('.rentit');
+// //const paymentSections = document.querySelector('.payment-sections');
+// rent.forEach(rant=>{
+//   rant.addEventListener('click',e=>{
+//     cartprice=0;
+//     console.log("rented")
+//   //  paymentSections.style.display = "block";
    
   
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        var ids =e.target.parentElement.parentElement.getAttribute('id')
+//     firebase.auth().onAuthStateChanged(function(user) {
+//       if (user) {
+//         var ids =e.target.parentElement.parentElement.getAttribute('id')
     
-       document.querySelector('.usercart').style.display="block"
-    document.querySelector('.payment-sections').style.display="block";
+//        document.querySelector('.usercart').style.display="block"
+//     document.querySelector('.payment-sections').style.display="block";
    
-    console.log(ids)
-    if(userstatus==="active"){
-      advancedsearch(ids);
-      rant.setAttribute('href', "#payment-sections1");
-    }
-    else console.log("Your temporarly blocked");
-      }
-      else{
-        alert("please login to buy")
-        console.log("please login to buy")
-        document.querySelector('.back-layer').style.display="block"
-      }
-    })
-  })
-})
-}
+//     console.log(ids)
+//     if(userstatus==="active"){
+//       advancedsearch(ids);
+//       rant.setAttribute('href', "#payment-sections1");
+//     }
+//     else console.log("Your temporarly blocked");
+//       }
+//       else{
+//         alert("please login to buy")
+//         console.log("please login to buy")
+//         document.querySelector('.back-layer').style.display="block"
+//       }
+//     })
+//   })
+// })
+// }
 
-
+//this function for home sliders
 function setupguides(data){
     let html='';
     let html2 = '';
@@ -284,46 +450,7 @@ for(var i=0;i<data.length;i++){
     }
 }
 
-function setupguides2(id,data){
 
-  
-    let catButtons = '';
-var buttons;
-    for (var i=0; i<id.length; i++) {
-        //  buttons = `<button class="btn btn-dark">${dataa[i]}</button>
-        //  `
-        buttons = `<div class="btn-group"><h1 class="btn btn-dark camerabutton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-id="${id[i]}">${id[i]}</h1>
-          <div class="dropdown-menu dropmenu rollnut cambut${id[i]}">
-        </div></div>
-        `
-    
-
-
-    catButtons += buttons;
-  //  console.log(buttons)
-    categoryButtons.innerHTML = catButtons
-    }
-   // console.log(data)
-    for(i=0;i<id.length;i++){
-      const cambut=document.querySelector(`.cambut${id[i]}`)
-      let hmtl='';
-      var ls;
-      data.forEach(nup=>{
-        console.log(nup)
-     if(nup.id==`${id[i]}`){
-      for (var name of Object.keys(nup.data())) {
-        console.log(name)
-        ls=`<a class="dropdown-item camcut" data-id="${name}">${name}</a>`;
-        hmtl+=ls;
-        cambut.innerHTML=hmtl;
-      }
-    }
-    
-    })
-    }
-
-   
-}
 
 const homecart=document.querySelector('.cart-table')
 const carttotal=document.querySelector('.cart-total')
@@ -441,6 +568,11 @@ firebase.auth().onAuthStateChanged(function(user) {
     
     })
     console.log('cart price',cartprice)
+    //hide cart when no product in cart
+   if(cartprice<=0){
+    console.log("hide cart")
+     document.querySelector('.payment-sections').style.display="none";
+     }
     var li2;
     li2=`
     <p class="text-center totalCart"><b>Totalcart:</b> ${cartprice}</p>
@@ -606,49 +738,50 @@ function displayorders(data){
 }
 
 
-// function displayorders(data){
-//   console.log('product length',data.products.length)
-//   const div=document.createElement('div')
-//   div.setAttribute('class',"my-orders")
-//   var li=`     
-    
-//   <div class="order-pic">
-//     <div class="order-pic2">
-//       <div>
-//         <img src="${data.products[3]}" alt="">
-//       </div>
-    
-//   <div>
-//     <h5> ${data.products[0]}</h5>
- 
-//     <p><span>Qty: </span>&nbsp; ${data.products[1]}</p>
-//     <p><span>Price:</span>&nbsp; ${data.products[2]}</p>
 
-    
-//   </div>
-     
-   
+
+
+
+
+//date coding
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + (d.getDate()),
+      year = d.getFullYear();
       
-  
-//     </div>
-   
-//     </div>
-   
- 
-//   <p><span>Order Id:</span>${data.orderid}</p>
-//   <p><span>Payment Id:</span>${data.paymentid}</p>
-//   <p><span>Payment status:</span>${data.paymentstatus}</p>
-//     <p><span>From: </span>${data.pickupdate}</p>
-//     <p><span>To: </span>${data.returndate}</p>
-//   `;
-// div.innerHTML=li
-// fridge.append(div)
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
 
-// }
+  return [year, month, day].join('-');
+}
 
+function formatDate2(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + (d.getDate()+1),
+      year = d.getFullYear();
+      
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
 
+  return [year, month, day].join('-');
+}
 
-
+if(new Date().getHours()>15){
+  const today=formatDate2(new Date().toDateString());
+  document.getElementById('pickupdate').setAttribute("min",today);
+  document.getElementById('returndate').setAttribute("min",today);
+}
+else{
+  const today=formatDate(new Date().toDateString());
+  document.getElementById('pickupdate').setAttribute("min",today);
+  document.getElementById('returndate').setAttribute("min",today);
+}
 
 
 

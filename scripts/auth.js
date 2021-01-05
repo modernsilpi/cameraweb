@@ -3,6 +3,9 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-contai
 window.lrecaptchaVerifier = new firebase.auth.RecaptchaVerifier('lrecaptcha-container');
 const adharfront=document.querySelector('.adharfront')
 const adharback=document.querySelector('.adharback')
+const otherid=document.querySelector('#otherid')
+
+
 var mainuser;
 var mainusercond;
 firebase.auth().onAuthStateChanged(function(user) {
@@ -90,8 +93,9 @@ lverifyotp.addEventListener('click',(e)=>{
         if (user) {
          console.log("user login")
          const signinname=document.querySelector('.signinname')
-      
-        
+         const altnumber=document.querySelector('#altphone')
+         const profession=document.querySelector('.signinprofession')
+
          const signinlocation=document.querySelector('.signinlocation')
          db.collection('users').doc(user.uid).collection('profile').doc(user.uid).set({
              name:signinname.value,
@@ -100,7 +104,10 @@ lverifyotp.addEventListener('click',(e)=>{
              adharfront:adharcardf,
              adharback:adharcardb,
              promocode:"eligible",
-             status:"active"
+             status:"active",
+             altnumber:altnumber.value,
+             profession:profession.value,
+             otherid:otheridlink
          }).then(function(){ 
           document.querySelector('.back-layer').style.display="none";
           return db.collection('users').doc(user.uid).set({dummy:'this is because to view this doc in control panel'})
@@ -120,6 +127,39 @@ lverifyotp.addEventListener('click',(e)=>{
 // })
 var adharcardf;
 var adharcardb;
+var otheridlink;
+
+//other any id proof
+otherid.addEventListener('change',(e)=>{
+  var file=e.target.files[0];
+  console.log("other id click")
+  uploaderb=document.querySelector('#otheridp');
+ // crate storage ref
+var storageref=storage.ref(`users/${mainuser.uid}/profile/` + file.name);
+
+   //upload file
+ var task=storageref.put(file);
+
+    //update progress bar
+task.on('state_changed',
+function progress(snapshot){
+  var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+  uploaderb.value=percentage;
+},
+  function error(err){
+  console.log(err)
+},
+function complete(){
+console.log("other id uploaded successfully ")
+task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  console.log('File available at', downloadURL);
+  otheridlink=downloadURL
+});
+}
+);
+
+})
+
 //adhar back
 adharback.addEventListener('change',(e)=>{
     var file=e.target.files[0];
@@ -227,49 +267,14 @@ db.collection('homesliders').onSnapshot(snapshot=>{
         var guide=sek.data();
         console.log(guide.sliders);
     setupguides(guide.sliders)
-    // setupguides2(cButtons)
-    //uniquefeed(cButtons)
+   
     })
     
 })
-db.collection('categorybutton').onSnapshot(snap=>{
-   var cate=new Array()
-   snap.forEach(nap=>{
-       console.log(nap.id)
-       cate.push(nap.id)
-   })
-   setupguides2(cate,snap.docs)
-    // console.log("this are cats",snap.doc.id)
-})
+
 
 var pappu=[];
-// function search(maincate,id2) {
-  
-//     db.collection('categorybutton').doc(maincate).onSnapshot(snup=>{
-    
-//    for(var name of Object.keys(snup.data())){
-//        db.collection('categorybutton').doc(maincate).collection(name).onSnapshot(snapp=>{
-//                snapp.docs.forEach(pan=>{
-//             if(pan.id==id2){
-//                 console.log(pan.data());
-//               //  indexcart(pan);//cart products at home page
-//               db.collection('users').doc(mainuser.uid).collection('cart').doc(pan.id).set({
-//                 name:pan.data().name,
-//                 price:pan.data().price,
-//                 qty:1,
-//                 link:pan.data().link
-//               })
-              
-               
-//             }
-            
-            
-//         })
-//        })
-//    }
-//     })
-     
-//      }
+
 
 function advancedsearch(productid){
   db.collection('categorybutton').onSnapshot(id=>{
@@ -320,14 +325,7 @@ function removecart(id){
        )
      }
 
-//retrive user cart details
-// function usercart(){
-//   db.collection('users').doc(mainuser.uid).collection('cart').onSnapshot(snap=>{
-//     snap.docs.forEach(nap=>{
-//       console.log(nap.id)
-//     })
-//   })
-// }
+
 
 function increaseqtydb(id){//increase cart qty in db
   db.collection('users').doc(mainuser.uid).collection('cart').doc(id).update({
@@ -359,7 +357,7 @@ for (var name of Object.keys(snap.data())) {
        pappu=[]
    }
    if(count==Object.keys(snap.data()).length){
-   uniquefeed3(pappu)
+  //  uniquefeed3(pappu)
    
   
    }
@@ -373,24 +371,42 @@ for (var name of Object.keys(snap.data())) {
 
 
 //this function append all product in home page
-var kappu=[];
-db.collection('categorybutton').get().then(id=>{
-  id.docs.forEach(id2=>{
-    for (var name of Object.keys(id2.data())) {
-   //   count=count+1;
-      console.log("object keys",Object.keys(id2.data()).length)
-      console.log("path",id2.id,name)
-      db.collection('categorybutton').doc(id2.id).collection(name).get().then(snapp=>{
-         kappu.push(snapp.docs);
-         uniquefeed3(kappu)
-    //  snapp.docs.forEach(id3=>{
-    //    console.log(id3.data());
-    //  })
+let productdbc=db.collection('categorybutton')
+productdbc.get().then(tap=>{
+    tap.forEach(main=>{
+        productdbc.doc(main.id).get().then(snap=>{
+            for (var name of Object.keys(snap.data())) {
+                console.log(name)
+                productdbc.doc(main.id).collection(name).get().then(nap=>{
+                 
+                    // nap.forEach(cap=>{
     
-  
-      });
-  }
-  })
+                    // })
+                    append1(nap)
+                })
+            }
+        })
+    })
+
+})
+const allcategories=document.querySelector('.allcategories')
+allcategories.addEventListener('click',(e)=>{
+    e.preventDefault();
+    unique.innerHTML='';
+    let productdbc=db.collection('categorybutton')
+productdbc.get().then(tap=>{
+    tap.forEach(main=>{
+        productdbc.doc(main.id).get().then(snap=>{
+            for (var name of Object.keys(snap.data())) {
+                console.log(name)
+                productdbc.doc(main.id).collection(name).get().then(nap=>{
+                    append1(nap)
+                })
+            }
+        })
+    })
+
+})
 })
 
 
@@ -407,7 +423,7 @@ function database(id,subcat){
         sek.forEach(up=>{
             console.log(up.data())
         })
-        uniquefeed2(snapp.docs)  
+      //  uniquefeed2(snapp.docs)  
         
     })
 }
@@ -423,14 +439,9 @@ logout.addEventListener('click', (e)=>{
 
 
 if (user != null) {
-    var username, email, photoUrl, uid, emailVerified;
-  //username = user.displayName;
-  //email = user.email;
- // photoUrl = user.photoURL;
-  //emailVerified = user.emailVerified;
-  uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                   // this value to authenticate with your backend server, if
-                   // you have one. Use User.getToken() instead.
+    var uid;
+
+  uid = user.uid;  
                    console.log("login uid",uid)
 }
 
@@ -446,68 +457,11 @@ if (user != null) {
 })
 
 
-// db.collection('users').doc('4ONMfVmuZUhfIHY87DcwmmA3A3c2').collection('cart').onSnapshot(pap=>{
-//   pap.docs.forEach(cap=>{
-//     indexcart(cap);
-//     console.log("mainusercond",cap)
-//   })
-// })
-
-
-
-
-//upload files
-// var uploader=document.querySelector('#uploader');
-// var filebutton=document.querySelector('#filebutton');
-// filebutton.addEventListener('change', (e)=>{
-//   var file=e.target.files[0];
-
-//   //crate storage ref
-//   var storageref=storage.ref('photos/' + file.name);
-
-//   //upload file
-//   var task=storageref.put(file);
-
-//   //update progress bar
-//   task.on('state_changed',
-//   function progress(snapshot){
-//     var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
-//     uploader.value=percentage;
-//   },
-
-//   function error(err){
-//     console.log(err)
-//   },
-
-// function complete(){
-//   console.log("file uploaded successfully")
-//   task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-//     console.log('File available at', downloadURL);
-//   });
-// }
-//   );
-
-// });
-
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
 
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(pap=>{
   homecart.innerHTML='';
-  // let changes=pap.docChanges();
-  // changes.forEach(change => {
-  //     if(change.type=='added'){
-  //         indexcart(change.doc);
-  //     } else if(change.type=='removed'){
-  //         let div=homecart.querySelector('[id=' + change.doc.id + ']');
-  //         homecart.removeChild(div);
-  //     } else if(change.type=='modified'){
-  //         let div=homecart.querySelector('[id=' + change.doc.id + ']');
-  //         homecart.removeChild(div);
-  //         indexcart(change.doc);
-  //     }
-     
-  // })
   pap.forEach(nap=>{
     indexcart(nap)
   })
