@@ -27,7 +27,17 @@ if(!pickupdate || !returndate){
     promoerror.innerHTML="Please add pickup & return dates";
     }
 else{
-
+    
+//change cart price according to the dates booked
+console.log(Number(returndate.slice(-2))-Number(pickupdate.slice(-2)))
+var pricedate=Number(returndate.slice(-2))-Number(pickupdate.slice(-2))+1;
+promocartprice=promocartprice*pricedate
+var li22;
+li22=`
+<p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
+`;
+carttotal.innerHTML=li22;
+//end of logic
 
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
     snap.docs.forEach(nap=>{

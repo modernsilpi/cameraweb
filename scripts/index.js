@@ -739,6 +739,45 @@ function displayorders(data){
 
 
 
+//date coding
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + (d.getDate()),
+      year = d.getFullYear();
+      
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+function formatDate2(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + (d.getDate()+1),
+      year = d.getFullYear();
+      
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+if(new Date().getHours()>15){
+  const today=formatDate2(new Date().toDateString());
+  document.getElementById('pickupdate').setAttribute("min",today);
+  document.getElementById('returndate').setAttribute("min",today);
+}
+else{
+  const today=formatDate(new Date().toDateString());
+  document.getElementById('pickupdate').setAttribute("min",today);
+  document.getElementById('returndate').setAttribute("min",today);
+}
 
 
 
