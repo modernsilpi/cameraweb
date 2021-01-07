@@ -93,6 +93,15 @@ var maincategory;
 
 const buttonscontainer=document.querySelector('.btnsrow')
 db.collection('categorybutton').get().then(snap=>{
+  const div22=document.createElement('div');
+  div22.innerHTML=`
+  <div class="col-lg-2 col-md-3 col-sm-4">
+    <div class="dropdown">
+     <a href="#productdiv"> <button class="btn btn-dark btndarks1 allcategories" type="button">All</button></a>
+     </div>
+   </div>
+  `;
+  buttonscontainer.append(div22)
     snap.forEach(nap=>{
         let maincat;
      //   console.log(nap.data())
@@ -142,6 +151,43 @@ db.collection('categorybutton').get().then(snap=>{
         })
 
     })
+    const div11=document.createElement('div');
+    div11.innerHTML=`
+    <div class="col-lg-2 col-md-3 col-sm-4">
+      <div class="dropdown">
+       <a href="#productdiv"> <button class="btn btn-dark btndarks1 noneservice" type="button">Service</button></a>
+       </div>
+     </div>
+    `;
+    buttonscontainer.append(div11)
+
+    //show service form when click on service
+    document.querySelector('.noneservice').addEventListener('click',(e)=>{
+      document.querySelector('.productdiv').style.display="block";
+      document.querySelector('.noneservice').setAttribute("href","#productdiv");
+    })
+
+    //append all product when click on all 
+    const allcategories=document.querySelector('.allcategories')
+allcategories.addEventListener('click',(e)=>{
+    e.preventDefault();
+    unique.innerHTML='';
+    let productdbc=db.collection('categorybutton')
+productdbc.get().then(tap=>{
+    tap.forEach(main=>{
+        productdbc.doc(main.id).get().then(snap=>{
+            for (var name of Object.keys(snap.data())) {
+                console.log(name)
+                productdbc.doc(main.id).collection(name).get().then(nap=>{
+                    append1(nap)
+                })
+            }
+        })
+    })
+
+})
+})
+
 })
 
 

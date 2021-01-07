@@ -4,6 +4,7 @@ window.lrecaptchaVerifier = new firebase.auth.RecaptchaVerifier('lrecaptcha-cont
 const adharfront=document.querySelector('.adharfront')
 const adharback=document.querySelector('.adharback')
 const otherid=document.querySelector('#otherid')
+const profilepic=document.querySelector('#profilepic');
 
 
 var mainuser;
@@ -18,6 +19,9 @@ firebase.auth().onAuthStateChanged(function(user) {
        li=`<i class="fas fa-user-circle"></i> <a href="#" class="logout-button ">${snap.data().name}</a>`
          document.querySelector('.usernamefield').innerHTML=li;
          document.querySelector('.usernamefield').style.display="block";
+         document.querySelector('#displayname').innerHTML=snap.data().name;
+         document.querySelector('#displaynumber').innerHTML=snap.data().phone;
+         document.querySelector('#displaycity').innerHTML=snap.data().location;
          userstatus=snap.data().status;
      })
     
@@ -107,7 +111,8 @@ lverifyotp.addEventListener('click',(e)=>{
              status:"active",
              altnumber:altnumber.value,
              profession:profession.value,
-             otherid:otheridlink
+             otherid:otheridlink,
+             profilepic:profilelink
          }).then(function(){ 
           document.querySelector('.back-layer').style.display="none";
           return db.collection('users').doc(user.uid).set({dummy:'this is because to view this doc in control panel'})
@@ -128,6 +133,43 @@ lverifyotp.addEventListener('click',(e)=>{
 var adharcardf;
 var adharcardb;
 var otheridlink;
+var profilelink;
+
+
+//profilepic photo code
+profilepic.addEventListener('change',(e)=>{
+  var file=e.target.files[0];
+  console.log("profile click")
+  uploaderb=document.querySelector('#profilepicp');
+ // crate storage ref
+var storageref=storage.ref(`users/${mainuser.uid}/profile/` + file.name);
+
+   //upload file
+ var task=storageref.put(file);
+
+    //update progress bar
+task.on('state_changed',
+function progress(snapshot){
+  var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+  uploaderb.value=percentage;
+},
+  function error(err){
+  console.log(err)
+},
+function complete(){
+console.log("profile id uploaded successfully ")
+task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  console.log('File available at', downloadURL);
+  profilelink=downloadURL
+});
+}
+);
+
+})
+
+
+
+
 
 //other any id proof
 otherid.addEventListener('change',(e)=>{
@@ -389,25 +431,6 @@ productdbc.get().then(tap=>{
     })
 
 })
-const allcategories=document.querySelector('.allcategories')
-allcategories.addEventListener('click',(e)=>{
-    e.preventDefault();
-    unique.innerHTML='';
-    let productdbc=db.collection('categorybutton')
-productdbc.get().then(tap=>{
-    tap.forEach(main=>{
-        productdbc.doc(main.id).get().then(snap=>{
-            for (var name of Object.keys(snap.data())) {
-                console.log(name)
-                productdbc.doc(main.id).collection(name).get().then(nap=>{
-                    append1(nap)
-                })
-            }
-        })
-    })
-
-})
-})
 
 
 
@@ -523,3 +546,74 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
     })
     
   }
+
+
+
+
+
+  //add service
+  function addservice(){
+    const servicepicp=document.querySelector('#servicepicp');
+    const servicename=document.querySelector('#servicename')
+    const servicesubject=document.querySelector('#servicesubject')
+    const servicedescription=document.querySelector('#servicedescription')
+    const servername=document.querySelector('#servername')
+    const servernumber=document.querySelector('#servernumber')
+    let doc=db.collection('repairs').doc();
+    doc.set({
+      servicepic:servicepicvalue,
+      servicename:servicename.value,
+      servicesubject:servicesubject.value,
+      servicedescription:servicedescription.value,
+      servername:servername.value,
+      servernumber:servernumber.value,
+      date:new Date().toDateString(),
+      time:new Date().toTimeString()
+    }).then(()=>{
+
+      servicepicp.value=0;
+      servicename.value='';
+      servicesubject.value='';
+      servicedescription.value='';
+      servername.value='';
+      servernumber.value='';
+      document.querySelector('.productdiv').style.display="none";
+      alert("Your request successfully submited");
+    }).catch(err=>{
+      alert("can't handle this right now");
+    })
+  }
+
+
+  //service pic upload herhe
+  const servicepic=document.querySelector('#servicepic');
+  var servicepicvalue;
+  servicepic.addEventListener('change',(e)=>{
+  var file=e.target.files[0];
+  console.log("service pic click")
+  uploaderb=document.querySelector('#servicepicp');
+ // crate storage ref
+var storageref=storage.ref(`repairs/` + file.name);
+
+   //upload file
+ var task=storageref.put(file);
+
+    //update progress bar
+task.on('state_changed',
+function progress(snapshot){
+  var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+  uploaderb.value=percentage;
+},
+  function error(err){
+  console.log(err)
+},
+function complete(){
+console.log("other id uploaded successfully ")
+task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  console.log('File available at', downloadURL);
+  servicepicvalue=downloadURL
+});
+}
+);
+
+})
