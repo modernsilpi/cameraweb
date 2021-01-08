@@ -617,3 +617,17 @@ task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 );
 
 })
+
+
+
+// //where option is here
+// // Create a reference to the cities collection
+// var citiesRef = db.collection("orders");
+
+// // Create a query against the collection.
+// var query = citiesRef.where("paymentstatus", "==", "success");
+// query.get().then(snap=>{
+//   snap.forEach(nap=>{
+//     console.log(nap.id ,'=>',nap.data())
+//   })
+// })
