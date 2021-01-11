@@ -26,6 +26,16 @@ if(!pickupdate || !returndate){
     }, 5000);
     promoerror.innerHTML="Please add pickup & return dates";
     }
+    if(! document.getElementById('checkboxt').checked) { 
+        // alert("ok");
+      //
+    //  alert('Please check terms&conditions');
+        promoerror.style.display="block"
+        setTimeout(function(){
+          promoerror.style.display="none";
+        }, 5000);
+        promoerror.innerHTML="Please check terms&conditions";
+      }
 else{
     
 //change cart price according to the dates booked

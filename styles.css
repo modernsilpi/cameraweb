@@ -337,6 +337,26 @@ nav {
     float: right;
 }
 
+/*services form*/
+
+.services-form {
+    width: 600px;
+    margin: 0 auto;
+}
+
+#productdiv {
+    margin: 0 auto;
+}
+
+.product-form {
+    margin-left: 0;
+    width: 600px;
+}
+
+.services-form .form-control {
+    width: 600px;
+}
+
 /*cart table*/
 
 .cart-table {
@@ -480,6 +500,8 @@ nav {
     margin: 25px auto;
     color: rgba(177, 19, 19, 0.966);
     font-weight: 500;
+    height: 250px;
+    overflow: auto;
 }
 
 /*payment*/
@@ -855,6 +877,33 @@ footer {
        margin-left: 0;
        margin-right: 0;
     }
+
+/*services form*/
+
+.services-form {
+    width: 350px;
+    margin: 0;
+}
+
+#productdiv {
+    margin: 0;
+}
+
+#productdiv h4 {
+    font-weight: 700;
+    font-size: 20px;
+    width: 300px;
+}
+
+.product-form {
+    width: 350px;
+    margin: 0;
+}
+
+.services-form .form-control {
+    width: 350px;
+    margin-left: 0;
+}
 
     /*cart*/
 

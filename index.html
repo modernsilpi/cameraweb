@@ -319,8 +319,8 @@
 </div>
       </section>
       <div class="productdiv" id="productdiv">
-        <h4><b>Camera Services</b></h4>
-      <form onsubmit="addservice();return false">
+        <h4 class="text-center">Camera Services</h4>
+      <form onsubmit="addservice();return false" class="services-form">
         <div class="product-form">
           <input type="file" class="form-control" id="servicepic"  placeholder="photo">
           <progress value="0" max="100" id="servicepicp">0%</progress>
@@ -407,10 +407,19 @@
      </div>
     
     <article class="rules">
-      <p class="rule"><span class="star">&#9733;</span> Rentals at 24xRentals are calculated from 7 AM to next day 7 AM with respect to your booking date</p>
+      <!-- <p class="rule"><span class="star">&#9733;</span> Rentals at 24xRentals are calculated from 7 AM to next day 7 AM with respect to your booking date</p>
       <p class="rule"><span class="star">&#9733;</span> On special request for outdoor shoot, rental timings can be adjusted by call</p>
-      <p class="rule"><span class="star">&#9733;</span> Kindly bring your original identity proof for collecting rented items</p>
+      <p class="rule"><span class="star">&#9733;</span> Kindly bring your original identity proof for collecting rented items</p>-->
+      <div class="terms-list">
+        <p id="pushterms"></p>
+      </div>
+      
   </article>
+
+  <div class="form-check termsformcheck">
+    <input type="checkbox" class="form-check-input" id="checkboxt">
+    I have read and agree to the Terms and Conditions and Privacy Policy
+  </div>
   </div>
 
   <div class="input-group1">
@@ -528,6 +537,7 @@
 <script  src="scripts/index.js"></script>
 <script  src="scripts/payment.js"></script>
 <script  src="scripts/gpay.js"></script>
+<script src="scripts/terms.js"></script>
 
 <!-- razorpay link -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -581,6 +591,19 @@
    document.querySelector('.back-layer2').style.display="none";
  })
  })
+
+//  var checkoutBtn = document.querySelector('.checkout');
+//  checkoutBtn.addEventListener('click', function() {
+//   if(! document.getElementById('checkboxt').checked) { 
+//     // alert("ok");
+//     alert('Please check terms&conditions');
+//   }
+//   // else {
+  
+   
+//   // }
+//  })
+    
 
 </script>
 
