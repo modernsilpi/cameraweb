@@ -417,7 +417,7 @@ promobtn.addEventListener('click',(e)=>{
 
                           var li22;
                           li22=`
-                          <p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
+                          <p class="text-center totalCart">Totalcart: ${promocartprice}</p>
                           `;
                           carttotal.innerHTML=li22;
                           promoerror.innerHTML="Promo added successfully"
@@ -431,7 +431,7 @@ promobtn.addEventListener('click',(e)=>{
                             coupencode=cap.data().promocode;
                             var li22;
                             li22=`
-                            <p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
+                            <p class="text-center totalCart">Totalcart: ${promocartprice}</p>
                             `;
                             carttotal.innerHTML=li22;
                             promoerror.innerHTML="Promo added successfully"

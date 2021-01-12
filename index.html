@@ -259,7 +259,7 @@
           <input type="text" class="form-control lphonenumber " id="exampleInputPassword2" placeholder="Your phone number" required>
           <button type="button" class="btn btn-light lgenerateotp" >Send OTP</button>
         </div>
-       
+        <div id="lrecaptcha-container"></div>
        
         <div class="form-group verify-input">
           <label for="exampleInputPassword1">Validation</label>
@@ -268,7 +268,7 @@
         <button type="button" class="btn btn-light lverifyotp" >Submit</button>
        
       </div>
-      <div id="lrecaptcha-container"></div>
+      
 
      
     </form>
@@ -423,16 +423,27 @@
   </div>
 
   <div class="input-group1">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control promocodefield" placeholder="HAVE A PROMO CODE" aria-label="Recipient's username" aria-describedby="button-addon2" required>
-      <button class="btn btn-dark" type="submit"id="promobtn">Apply</button>
+    <div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control promocodefield" placeholder="HAVE A PROMO CODE" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+        <button class="btn btn-dark" type="submit"id="promobtn">Apply</button>
+      </div>
     </div>
+    
+      <div class="discounts">
+        <div class="cart-total"></div>
+        <div class="cart-totaln"><p>Discount: 10000</p> </div>
+    <div class="cart-totaln totaln"><p>Total: 20000</p> </div>
+      </div>
+     
   
-  
-    <div class="cart-total"></div>
+    
+    <!-- <div class="cart-total"></div> -->
   
   </div>
   <div class="alert alert-danger promoerror"></div>
+ 
+  
 
   <div class="checkout"><button class="btn btn-dark" id="checkoutbtn">Check Out</button></div>
     

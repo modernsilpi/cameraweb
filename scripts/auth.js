@@ -619,7 +619,6 @@ task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 })
 
 
-
 // //where option is here
 // // Create a reference to the cities collection
 // var citiesRef = db.collection("orders");
@@ -631,3 +630,5 @@ task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 //     console.log(nap.id ,'=>',nap.data())
 //   })
 // })
+
+

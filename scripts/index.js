@@ -621,7 +621,7 @@ firebase.auth().onAuthStateChanged(function(user) {
      }
     var li2;
     li2=`
-    <p class="text-center totalCart"><b>Totalcart:</b> ${cartprice}</p>
+    <p class="text-center totalCart">Totalcart: ${cartprice}</p>
     `;
     carttotal.innerHTML=li2;
     
