@@ -1,4 +1,8 @@
 const promoerror=document.querySelector('.promoerror');
+
+//check out price
+totoalcheckout=document.querySelector('.totoalcheckout')
+discount=document.querySelector('.discount')
 //check out button
 var buyername;
 var buyerphone;
@@ -7,6 +11,7 @@ var productdetals=[];
 var pickupdate;
 var returndate;
 var orderid;
+var cartprice2;
 var donepayment=0;
 checkout=document.querySelector('#checkoutbtn')
 checkout.addEventListener('click',(e)=>{
@@ -15,38 +20,46 @@ checkout.addEventListener('click',(e)=>{
     //  decreasecart();
     //check weather promo added or not
     if(promocodestatus==0){
-        promocartprice=cartprice;
+        promocartprice=cartprice2;
     }
 pickupdate=document.getElementById('pickupdate').value;
 returndate=document.getElementById('returndate').value;
-if(!pickupdate || !returndate){
+
+// if(! document.getElementById('checkboxt').checked) { 
+//     // alert("ok");
+//   //
+// //  alert('Please check terms&conditions');
+//     promoerror.style.display="block"
+//     setTimeout(function(){
+//       promoerror.style.display="none";
+//     }, 5000);
+//     promoerror.innerHTML="Please check terms&conditions";
+//   }
+
+if(!pickupdate || !returndate || ! document.getElementById('checkboxt').checked){
     promoerror.style.display="block"
     setTimeout(function(){
       promoerror.style.display="none";
     }, 5000);
-    promoerror.innerHTML="Please add pickup & return dates";
+    if(! document.getElementById('checkboxt').checked) promoerror.innerHTML="Please check terms&conditions";
+    else promoerror.innerHTML="Please add pickup & return dates";
+
     }
-    if(! document.getElementById('checkboxt').checked) { 
-        // alert("ok");
-      //
-    //  alert('Please check terms&conditions');
-        promoerror.style.display="block"
-        setTimeout(function(){
-          promoerror.style.display="none";
-        }, 5000);
-        promoerror.innerHTML="Please check terms&conditions";
-      }
+
 else{
     
 //change cart price according to the dates booked
-console.log(Number(returndate.slice(-2))-Number(pickupdate.slice(-2)))
-var pricedate=Number(returndate.slice(-2))-Number(pickupdate.slice(-2))+1;
-promocartprice=promocartprice*pricedate
+
+// var pricedate=Number(returndate.slice(-2))-Number(pickupdate.slice(-2))+1;
+// console.log(pricedate)
+// promocartprice=promocartprice*pricedate
+// promocartprice=cartprice2;
 var li22;
 li22=`
-<p class="text-center totalCart"><b>Totalcart:</b> ${promocartprice}</p>
+<p class="text-center totalCart">Totalcart: &#8377 ${cartprice2}</p>
 `;
 carttotal.innerHTML=li22;
+totoalcheckout.innerHTML=`<p><b>Total: &#8377 ${promocartprice}</b></p>`;
 //end of logic
 
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
@@ -230,68 +243,6 @@ function promocodeineligible(){
 
 
 
-//update failed payment status in user db and order db
-// function savetodbfail(response){
-//    // alert("payment failed");
-//     console.log("payment failled");
-//     db.collection('users').doc(firebase.auth().currentUser.uid).collection('orders').doc(orderid.id).update({
-//         paymentstatus:"failed",
-//         paymentid:response.razorpay_payment_id,
-//         paymenterror: response.error.code,
-//         errordescription: response.error.description,
-//         reasonoffail:response.error.reason ,
-//             // orderid:orderid.id,
-//             // products:productdetals,
-//             // totalprice:cartprice,
-//             // pickupdate:pickupdate,
-//             // returndate:returndate,
-//             // buyername:buyername,
-//             // buyerphone:buyerphone,
-//             // buyerlocation:buyerlocation,
-
-
-//         // paymentorderid:response.razorpay_order_id,
-//         // paymentsignature:response.razorpay_signature,
-//         paymentAt:firebase.firestore.FieldValue.serverTimestamp()
-        
-//     }).then(()=>{
-//         console.log("updating user cart")
-//         return db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
-//             snap.docs.forEach(nap=>{
-//                 console.log(nap.id)
-//                 let idd=nap.id;
-//                 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(idd).delete();
-//             })
-//         })
-//     }).catch(err =>{ console.log(err)
-       
-//     })
-//     updatepaymentstatusfail(response);
-// }
-// function updatepaymentstatusfail(response){
-//     console.log("updating payment stauts in orders ")
-//      db.collection('orders').doc(orderid.id).update({
-//         paymentstatus:"failed",
-//         paymentid:response.razorpay_payment_id,
-//         paymenterror: response.error.code,
-//         errordescription: response.error.description,
-//         reasonoffail:response.error.reason ,
-        
-//         // orderid:orderid.id,
-//         // products:productdetals,
-//         // totalprice:cartprice,
-//         // pickupdate:pickupdate,
-//         // returndate:returndate,
-//         // buyername:buyername,
-//         // buyerphone:buyerphone,
-//         // buyerlocation:buyerlocation,
-//         // paymentorderid:response.razorpay_order_id,
-//         // paymentsignature:response.razorpay_signature,
-//         paymentAt:firebase.firestore.FieldValue.serverTimestamp()
-//      })
-//      cartprice=0;
-//      document.querySelector('.payment-sections').style.display="none";
-// }
 
 function makeorderfail(response){
     // console.log(buyername);
@@ -406,41 +357,47 @@ promobtn.addEventListener('click',(e)=>{
                        console.log("promocode added",cap.data().status)
                     if(cap.data().status=="active"){ 
 
-                        if(cartprice >= cap.data().cutoff){
+                        if(cartprice2 >= cap.data().cutoff){
                         
                         if(cap.data().type=="percentage"){
                           let offer=(cap.data().off)/100;
-                          promocartprice=Math.round(cartprice-(offer*cartprice));
+                          promocartprice=Math.round(cartprice2-(offer*cartprice2));
                           console.log("offer price is ",promocartprice)
                           promocodestatus=1;
                           coupencode=cap.data().promocode;
 
                           var li22;
                           li22=`
-                          <p class="text-center totalCart">Totalcart: ${promocartprice}</p>
+                          <p class="text-center totalCart">Totalcart: &#8377 ${cartprice2}</p>
                           `;
+
                           carttotal.innerHTML=li22;
+
+                          discount.innerHTML=`<p>Discount: &#8377 ${offer*cartprice2}</p>`;
+                          totoalcheckout.innerHTML=`<p><b>Total: &#8377 ${promocartprice}</b></p>`;
                           promoerror.innerHTML="Promo added successfully"
             
                         }
                         else if(cap.data().type=="price"){
             
-                            promocartprice=Math.round(cartprice-cap.data().off);
+                            promocartprice=Math.round(cartprice2-cap.data().off);
                             console.log("offer price is ",promocartprice)
                             promocodestatus=1;
                             coupencode=cap.data().promocode;
                             var li22;
                             li22=`
-                            <p class="text-center totalCart">Totalcart: ${promocartprice}</p>
+                            <p class="text-center totalCart">Totalcart: &#8377 ${cartprice2}</p>
                             `;
                             carttotal.innerHTML=li22;
+                            discount.innerHTML=`<p>Discount: &#8377 ${cap.data().off}</p>`;
+                            totoalcheckout.innerHTML=`<p><b>Total: &#8377 ${promocartprice}</b></p>`;
                             promoerror.innerHTML="Promo added successfully"
                             
                         }
                     }
                     else { 
                         console.log("price must be more then",cap.data().cutoff)
-                        promoerror.innerHTML=`cartprice morethen ${cap.data().cutoff}`
+                        promoerror.innerHTML=`cartprice morethen &#8377 ${cap.data().cutoff}`
                     
                     }
                    
@@ -492,4 +449,31 @@ promobtn.addEventListener('click',(e)=>{
     //    }
     // })
     // })
+})
+
+
+const enddate=document.getElementById('returndate')
+enddate.addEventListener('change',(e)=>{
+const    pickupdate=document.getElementById('pickupdate').value;
+const returndate=document.getElementById('returndate').value;
+    console.log("end date updated");
+    //change cart price according to the dates booked
+
+var pricedate=Number(returndate.slice(-2))-Number(pickupdate.slice(-2))+1;
+console.log(pricedate);
+cartprice2=cartprice;
+cartprice2=cartprice2*pricedate
+var li22;
+li22=`
+<p class="text-center totalCart">Totalcart: &#8377 ${cartprice2}</p>
+`;
+carttotal.innerHTML=li22;
+//end of logic
+// enddate.value='';
+})
+
+const startdate=document.getElementById('pickupdate')
+startdate.addEventListener('change',(e)=>{
+    console.log(startdate.value);
+    document.getElementById('returndate').setAttribute("min",startdate.value);
 })

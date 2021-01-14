@@ -248,7 +248,7 @@ function append1(data){
       `
       unique.append(div);
 
-      //edit product
+      //add to cart product
       const buy=document.getElementById(`e${nap.id}`)
       buy.addEventListener('click',(e)=>{
         
@@ -552,7 +552,10 @@ const increaseqty=document.querySelector(`#i${cartt.id}`)
 increaseqty.addEventListener('click',e=>{
   let id = e.target.parentElement.parentElement.parentElement.getAttribute('id');
   console.log("increased",id)
-  increaseqtydb(id);
+  // console.log(`qty is ${cart.qty} ${cart.qtylimit}`)
+  if(cart.qty<cart.qtylimit) increaseqtydb(id);
+  else alert("You can't add more")
+ 
   cartprice=0;
 })
 
@@ -561,7 +564,7 @@ const decreaseqty=document.querySelector(`#d${cartt.id}`)
 decreaseqty.addEventListener('click',e=>{
   let id = e.target.parentElement.parentElement.parentElement.getAttribute('id');
   console.log("decrease",id)
-  decreasedb(id);
+  if(cart.qty>1)  decreasedb(id);
   cartprice=0;
 })
 
@@ -621,7 +624,7 @@ firebase.auth().onAuthStateChanged(function(user) {
      }
     var li2;
     li2=`
-    <p class="text-center totalCart">Totalcart: ${cartprice}</p>
+    <p class="text-center totalCart">Totalcart: &#8377 ${cartprice}</p>
     `;
     carttotal.innerHTML=li2;
     
@@ -700,7 +703,7 @@ const ordersappend=document.querySelector('.ordersappend')
 const fridge=document.querySelector('.fridge');
 
 function displayorders(data){
- // fridge.innerHTML="";
+//fridge.innerHTML="";
   
   if(data.products.length>5){
     for(var i=0;i<data.products.length;i=i+5){

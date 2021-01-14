@@ -190,7 +190,7 @@
         </div>
         <div id="recaptcha-container"></div>
        
-        <div class="form-group">
+        <div class="form-group  vali">
           <label for="exampleInputPassword1">Validation</label>
           <input type="password" class="form-control verificationcode" id="exampleInputPassword1" placeholder="Enter your otp here" required>
         </div>
@@ -432,8 +432,12 @@
     
       <div class="discounts">
         <div class="cart-total"></div>
-        <div class="cart-totaln"><p>Discount: 10000</p> </div>
-    <div class="cart-totaln totaln"><p>Total: 20000</p> </div>
+        <div class="cart-totaln discount">
+          <!-- <p>Discount:0</p> -->
+         </div>
+    <div class="cart-totaln totoalcheckout">
+      <!-- <p>Total:</p> -->
+     </div>
       </div>
      
   
@@ -566,23 +570,23 @@
 
  <script>
    $(".productdiv").css("display","none");
-  $(".lgenerateotp").on("click", function() {
-     $(".verify-input").css("display", "block");
-     $(".lverifyotp").css("display", "block");
-  });
+  // $(".lgenerateotp").on("click", function() {
+  //    $(".verify-input").css("display", "block");
+  //    $(".lverifyotp").css("display", "block");
+  // });
 
-  $(".generateotp").on("click", function() {
-     $(".regverify").css("display", "block");
-     $(".verifyotp").css("display", "block");
-  });
+  // $(".generateotp").on("click", function() {
+  //    $(".regverify").css("display", "block");
+  //    $(".verifyotp").css("display", "block");
+  // });
 
-  $(".verifyotp").on("click", function() {
-     $(".regname").css("display", "block");
-     $(".regaadhar").css("display", "block");
-     $(".location").css("display", "block");
-     $(".regformcheck").css("display", "block");
-     $(".signupsubmit").css("display", "block");
-  });
+  // $(".verifyotp").on("click", function() {
+  //    $(".regname").css("display", "block");
+  //    $(".regaadhar").css("display", "block");
+  //    $(".location").css("display", "block");
+  //    $(".regformcheck").css("display", "block");
+  //    $(".signupsubmit").css("display", "block");
+  // });
 
   $(".noneservice").on("click",function(){
  $(".productdiv").css("display","block")

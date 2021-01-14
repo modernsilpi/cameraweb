@@ -14,6 +14,10 @@ firebase.auth().onAuthStateChanged(function(user) {
      console.log("user login")
      mainuser=user
      mainusercond=1;
+
+     const querySnapshot = db.collection('users').doc(user.uid).collection('profile').get()
+if (querySnapshot) {console.log('profile not existed')}
+
      var li;
      db.collection('users').doc(user.uid).collection('profile').doc(user.uid).onSnapshot(snap=>{
        li=`<i class="fas fa-user-circle"></i> <a href="#" class="logout-button ">${snap.data().name}</a>`
@@ -33,6 +37,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   });
 
 //signup
+document.querySelector('.vali').style.display="none"
 const generateotp=document.querySelector('.generateotp');
 generateotp.addEventListener('click', (e)=>{
     const numm="+91" + document.querySelector('.phonenumber').value;
@@ -42,7 +47,12 @@ generateotp.addEventListener('click', (e)=>{
     window.confirmationResult = confirmationResult;
     console.log(confirmationResult);
     document.querySelector('#recaptcha-container').style.display="none";
-  });
+    document.querySelector('.verifyotp').style.display="block";
+    document.querySelector('.vali').style.display="block"
+
+
+
+  }).catch(function(error){alert(error)});
 })
 var phonenumber;
 signupsubmit=document.querySelector('.signupsubmit')
@@ -55,10 +65,34 @@ verifyotp.addEventListener('click',(e)=>{
         //add user data to db
         phonenumber=document.querySelector('.phonenumber').value;
       console.log(result);
+      // let querysna=db.collection('users').doc(firebase.auth().currentUser.uid).collection('profile').get();
+      // if(querysna){
+      //   // firebase.auth().signOut();
+      //   // alert("your not registered please do register");
+      //   // location.reload();
+        
+      //   alert("You are already registered")
+      //   document.querySelector('.back-layer').style.display="none";
+      // }
+      // else {
+      //   console.log("not registered")
+      // }
+      let querysna=db.collection('users').doc(firebase.auth().currentUser.uid);
+      querysna.get().then(function(doc) {
+        if (doc.exists) {
+                   alert("You are already registered")
+        document.querySelector('.back-layer').style.display="none";
+        }
+        else{
+          $(".regname").css("display", "block");
+          $(".regaadhar").css("display", "block");
+          $(".location").css("display", "block");
+          $(".regformcheck").css("display", "block");
+          $(".signupsubmit").css("display", "block");
+        }
+    })
      // document.querySelector('.back-layer').style.display="none";
-    }).catch(function(error) {
-      console.log(error);
-    });
+    }).catch(function(error){console.log(error)});
 })
 
 //login
@@ -71,7 +105,9 @@ lgenerateotp.addEventListener('click', (e)=>{
     window.lconfirmationResult = lconfirmationResult;
     console.log(lconfirmationResult);
     document.querySelector('#lrecaptcha-container').style.display="none";
-  });
+    document.querySelector('.verify-input').style.display="block";
+    document.querySelector('.lverifyotp').style.display="block";
+  }).catch(function(error){alert(error)});
 })
 lverifyotp=document.querySelector('.lverifyotp');
 lverifyotp.addEventListener('click',(e)=>{
@@ -82,10 +118,21 @@ lverifyotp.addEventListener('click',(e)=>{
         //add user data to db
         phonenumber=document.querySelector('.lphonenumber').value;
       console.log(result);
-      document.querySelector('.back-layer2').style.display="none";
-    }).catch(function(error) {
-      console.log(error);
-    });
+    
+
+      let querysna=db.collection('users').doc(firebase.auth().currentUser.uid);
+      querysna.get().then(function(doc) {
+        if (!doc.exists) {
+          firebase.auth().signOut();
+          alert("your not registered please do register");
+          location.reload();
+        }
+        else document.querySelector('.back-layer2').style.display="none";
+    })
+
+    }).catch(function(error){console.log(error)});
+
+
 })
 
 
@@ -334,7 +381,8 @@ function advancedsearch(productid){
               price:pan.data().price,
               qty:1,
               link:pan.data().link,
-              productid:pan.id
+              productid:pan.id,
+              qtylimit:pan.data().qty
             })
            }
          })
@@ -347,7 +395,7 @@ function advancedsearch(productid){
 }
 
 function removecart(id){
-  db.collection('users').doc(mainuser.uid).collection('cart').doc(id).delete()
+  db.collection('users').doc(mainuser.uid).collection('cart').doc(id).delete().then(()=>{enddate.value='';})
 }
 
 
@@ -373,12 +421,14 @@ function increaseqtydb(id){//increase cart qty in db
   db.collection('users').doc(mainuser.uid).collection('cart').doc(id).update({
     qty:firebase.firestore.FieldValue.increment(1)
   })
+  enddate.value='';
 }
 
 function decreasedb(id){//decrease qty cart in db
   db.collection('users').doc(mainuser.uid).collection('cart').doc(id).update({
     qty:firebase.firestore.FieldValue.increment(-1)
   })
+  enddate.value='';
 }
 
 function database2(id){
