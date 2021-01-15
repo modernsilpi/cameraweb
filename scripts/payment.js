@@ -366,11 +366,13 @@ promobtn.addEventListener('click',(e)=>{
                        console.log("promocode added",cap.data().status)
                     if(cap.data().status=="active"){ 
 
-                        if(cartprice2 >= cap.data().cutoff){
+                    //    if(cartprice2 >= cap.data().cutoff){
                         
                         if(cap.data().type=="percentage"){
                           let offer=(cap.data().off)/100;
-                          promocartprice=Math.round(cartprice2-(offer*cartprice2));
+                          offer=offer*cartprice2;
+                          if(offer>cap.data().cutoff)offer=cap.data().cutoff;
+                          promocartprice=Math.round(cartprice2-offer);
                           console.log("offer price is ",promocartprice)
                           promocodestatus=1;
                           coupencode=cap.data().promocode;
@@ -382,7 +384,7 @@ promobtn.addEventListener('click',(e)=>{
 
                           carttotal.innerHTML=li22;
 
-                          discount.innerHTML=`<p>Discount: &#8377 ${offer*cartprice2}</p>`;
+                          discount.innerHTML=`<p>Discount: &#8377 ${offer}</p>`;
                           totoalcheckout.innerHTML=`<p><b>Total: &#8377 ${promocartprice}</b></p>`;
                           promoerror.innerHTML="Promo added successfully"
             
@@ -403,12 +405,12 @@ promobtn.addEventListener('click',(e)=>{
                             promoerror.innerHTML="Promo added successfully"
                             
                         }
-                    }
-                    else { 
-                        console.log("price must be more then",cap.data().cutoff)
-                        promoerror.innerHTML=`cartprice morethen &#8377 ${cap.data().cutoff}`
+                    // }
+                    // else { 
+                    //     console.log("price must be more then",cap.data().cutoff)
+                    //     promoerror.innerHTML=`cartprice morethen &#8377 ${cap.data().cutoff}`
                     
-                    }
+                    // }
                    
                     }
                     else{

@@ -184,7 +184,8 @@ lverifyotp.addEventListener('click',(e)=>{
       astatus=true;
      document.querySelector('.back-layer').style.display="none";
      return db.collection('users').doc(user.uid).set({adharnumber:adharnumber.value,
-      timestamp:firebase.firestore.FieldValue.serverTimestamp()
+      timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+      phone:phonenumber
     })
  
      })
