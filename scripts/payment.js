@@ -16,7 +16,7 @@ var donepayment=0;
 checkout=document.querySelector('#checkoutbtn')
 checkout.addEventListener('click',(e)=>{
       e.preventDefault();
-
+donepayment=0;
     //  decreasecart();
     //check weather promo added or not
     if(promocodestatus==0){
@@ -56,12 +56,11 @@ else{
 // promocartprice=cartprice2;
 var li22;
 li22=`
-<p class="text-center totalCart">Totalcart: &#8377 ${cartprice2}</p>
-`;
+<p class="text-center totalCart">Totalcart: &#8377 ${cartprice2}</p>`;
 carttotal.innerHTML=li22;
 totoalcheckout.innerHTML=`<p><b>Total: &#8377 ${promocartprice}</b></p>`;
 //end of logic
-
+productdetals=[];
 db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').onSnapshot(snap=>{
     snap.docs.forEach(nap=>{
         productdetals.push(nap.data().name,nap.data().qty,nap.data().price,nap.data().link,nap.data().productid)
@@ -75,20 +74,14 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
        buyername=snap.data().name;
        buyerphone=snap.data().phone;
        buyerlocation=snap.data().location;
-       //makeorder();
+     
        paymentprocess();
    })
 }
     
 })
 function makeorder(){
-// console.log(buyername);
-// console.log(buyerphone);
-// console.log(buyerlocation);
-// console.log(pickupdate,returndate)
-// console.log("product details",productdetals)
-// console.log("total price",promocartprice)
-// orderid=db.collection('orders').doc();
+
 db.collection('orders').doc(orderid.id).set({
     orderid:orderid.id,
     products:productdetals,
@@ -97,7 +90,8 @@ db.collection('orders').doc(orderid.id).set({
     returndate:returndate,
     buyername:buyername,
     buyerphone:buyerphone,
-    buyerlocation:buyerlocation
+    buyerlocation:buyerlocation,
+    timestamp:firebase.firestore.FieldValue.serverTimestamp()
 
 }).then(()=>{
    // orderid=doc.id;
@@ -115,10 +109,12 @@ function userorder(){
         returndate:returndate,
         buyername:buyername,
         buyerphone:buyerphone,
-        buyerlocation:buyerlocation
+        buyerlocation:buyerlocation,
+        timestamp:firebase.firestore.FieldValue.serverTimestamp()
     })
     //paymentprocess();
 }
+
 
 function paymentprocess(){
     orderid=db.collection('orders').doc();
@@ -136,16 +132,17 @@ function paymentprocess(){
            // alert(response.razorpay_payment_id);
             // alert(response.razorpay_order_id);
             // alert(response.razorpay_signature)
-            
-            promocodeineligible()
+
+            console.log("donepayment is ",donepayment);
+            promocodeineligible();
             decreasecart();
             makeorder();
             userorder();
-            savetodb(response)
-            donepayment=1;
+            savetodb(response);
             updatepaymentstatus(response);
-            deleteusercart();
-           // location.reload();
+            // deleteusercart();
+           resetall();
+          
             
            
 
@@ -187,7 +184,15 @@ function paymentprocess(){
 // });
     propay.open();
 }
-
+function resetall(){
+    homecart.value='';
+    carttotal.value='';
+    startdate.value='';
+    enddate.value='';
+    document.getElementById('checkboxt').value='';
+    
+}
+// if(donepayment==1){location.reload(); donepayment=0;}
 //update success payement status in user db and orders db 
 function savetodb(response){
     console.log("payment completed");
@@ -228,10 +233,13 @@ function updatepaymentstatus(response){
         timeofpay:new Date().toTimeString(),
         month:new Date().getMonth(),
         send:0,recieve:0,ordercomplete:0,buyerid:firebase.auth().currentUser.uid
+     }).then(()=>{
+        cartprice=0;
+        document.querySelector('.payment-sections').style.display="none";
+        location.reload();
      })
-     cartprice=0;
-     document.querySelector('.payment-sections').style.display="none";
-    // promocodeineligible();
+
+
 }
 function promocodeineligible(){
     if(promocodestatus==1){
@@ -327,6 +335,7 @@ function decreasecart(){
             console.log(nap.id)
             db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(nap.id).delete();
         })
+donepayment=1;
     })
 
   }    
@@ -451,6 +460,15 @@ promobtn.addEventListener('click',(e)=>{
     // })
 })
 
+function daydiff(pickupdate,returndate){
+    const date1 = new Date(pickupdate);
+const date2 = new Date(returndate);
+const diffTime = Math.abs(date2 - date1);
+const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+// console.log(diffTime + " milliseconds");
+console.log(diffDays + " days");
+return diffDays
+}
 
 const enddate=document.getElementById('returndate')
 enddate.addEventListener('change',(e)=>{
@@ -459,7 +477,10 @@ const returndate=document.getElementById('returndate').value;
     console.log("end date updated");
     //change cart price according to the dates booked
 
-var pricedate=Number(returndate.slice(-2))-Number(pickupdate.slice(-2))+1;
+// var pricedate=Number(returndate.slice(-2))-Number(pickupdate.slice(-2))+1;
+var pricedate=daydiff(pickupdate,returndate)
+pricedate=pricedate+1;
+
 console.log(pricedate);
 cartprice2=cartprice;
 cartprice2=cartprice2*pricedate

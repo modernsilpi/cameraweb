@@ -44,7 +44,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-       document.querySelector('.payment-sections').style.display="block";       
+        if(cartprice>0)document.querySelector('.payment-sections').style.display="block";
+        else alert("nothing in the cart");
+              
       } else {
        console.log("user not login")
        document.querySelector('.payment-sections').style.display="none";
@@ -254,6 +256,7 @@ function append1(data){
         
         if(nap.data().qty>0){
           if(userstatus=="active"){
+            cartprice=0;
         advancedsearch(nap.id);
         buy.setAttribute('href', "#payment-sections1");
         document.querySelector('.payment-sections').style.display="block";
@@ -704,7 +707,8 @@ const fridge=document.querySelector('.fridge');
 
 function displayorders(data){
 //fridge.innerHTML="";
-  
+  console.log("order dates minus")
+  let daysbooked=daydiff(data.pickupdate,data.returndate)+1;
   if(data.products.length>5){
     for(var i=0;i<data.products.length;i=i+5){
       const div=document.createElement('div')
@@ -721,7 +725,7 @@ function displayorders(data){
         <h5> ${data.products[i+0]}</h5>
      
         <p><span>Qty: </span>&nbsp; ${data.products[i+1]}</p>
-        <p><span>Price:</span>&nbsp; ${data.products[i+2]}</p>
+        <p><span>Price:</span>&nbsp; ${data.products[i+2]*daysbooked*data.products[i+1]}</p>
     
         
       </div>
@@ -739,6 +743,7 @@ function displayorders(data){
       <p><span>Payment status:</span>${data.paymentstatus}</p>
         <p><span>From: </span>${data.pickupdate}</p>
         <p><span>To: </span>${data.returndate}</p>
+        <p><span>Date of pay:</span>${data.dateofpay}</p>
       `;
     div.innerHTML=li
     fridge.append(div)
@@ -760,7 +765,7 @@ function displayorders(data){
       <h5> ${data.products[0]}</h5>
    
       <p><span>Qty: </span>&nbsp; ${data.products[1]}</p>
-      <p><span>Price:</span>&nbsp; ${data.products[2]}</p>
+      <p><span>Price:</span>&nbsp; ${data.products[2]*daysbooked*data.products[1]}</p>
   
       
     </div>
@@ -778,6 +783,7 @@ function displayorders(data){
     <p><span>Payment status:</span>${data.paymentstatus}</p>
       <p><span>From: </span>${data.pickupdate}</p>
       <p><span>To: </span>${data.returndate}</p>
+      <p><span>Date of pay: </span> ${data.dateofpay}</p>
     `;
   div.innerHTML=li
   fridge.append(div)

@@ -36,9 +36,7 @@
     <header class="fixed-top">
         <div class="nav-maps">
             <ul>
-                <li class="usercart">
-                  <i class="fas fa-cart-plus"></i><a href="#scrollcart" >Cart</a>
-              </li>
+
 
                 <li class="registerli">
                   <i class="fas fa-user-plus"></i> <a href="#" class="login-button register">Register</a>
@@ -49,6 +47,9 @@
             <li class="usernamefield">
               <!-- <i class="fas fa-user-circle"></i> <a href="#" class="logout-button ">Logout</a> -->
           </li>
+          <li class="usercart">
+            <i class="fas fa-cart-plus"></i><a href="#scrollcart" >Cart</a>
+        </li>
               <li class="logoutli">
                 <i class="fas fa-power-off"></i> <a href="#" class="logout-button logoutbtn">Logout</a>
             </li>
@@ -200,7 +201,7 @@
           <label for="exampleInputEmail1">Name</label>
           <input type="text" class="form-control signinname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name" required>
           <small id="emailHelp2" class="form-text text-muted">We'll never share your details with anyone else.</small>
-          <input type="text" class="form-control" id="altphone" placeholder="Aleternative phone number" required>
+          <input type="number" class="form-control" id="altphone" placeholder="Aleternative phone number" required>
         </div>
        
       </div>
@@ -214,6 +215,9 @@
         <input type="file" class="form-control adharback" id="adharback" placeholder="back" required>
         <progress value="0" max="100" id="uploaderb">0%</progress>
  
+        <label for="exampleInputPassword1">Enter your adharnumber</label>
+          <input type="number" class="form-control phonenumber " id="adharnumber" placeholder="Your adhar number" required>
+
         <label for="otherid">Any other id(pan,driving liecense etc..,)</label>
         <input type="file" class="form-control adharfront" id="otherid"  placeholder="front" required>
         <progress value="0" max="100" id="otheridp">0%</progress>
@@ -607,20 +611,12 @@
  })
  })
 
-//  var checkoutBtn = document.querySelector('.checkout');
-//  checkoutBtn.addEventListener('click', function() {
-//   if(! document.getElementById('checkboxt').checked) { 
-//     // alert("ok");
-//     alert('Please check terms&conditions');
-//   }
-//   // else {
-  
-   
-//   // }
-//  })
-    
 
 </script>
+
+
+
+
 
 
 

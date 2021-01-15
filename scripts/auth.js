@@ -92,7 +92,7 @@ verifyotp.addEventListener('click',(e)=>{
         }
     })
      // document.querySelector('.back-layer').style.display="none";
-    }).catch(function(error){console.log(error)});
+    }).catch(function(error){alert(error)});
 })
 
 //login
@@ -130,45 +130,74 @@ lverifyotp.addEventListener('click',(e)=>{
         else document.querySelector('.back-layer2').style.display="none";
     })
 
-    }).catch(function(error){console.log(error)});
+    }).catch(function(error){alert(error)});
 
 
 })
 
 
 // signupsubmit.addEventListener('click',(e)=>{
+
+
+
+
+
+
+
   function accessto(){
 
 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
          console.log("user login")
-         const signinname=document.querySelector('.signinname')
-         const altnumber=document.querySelector('#altphone')
-         const profession=document.querySelector('.signinprofession')
-
-         const signinlocation=document.querySelector('.signinlocation')
-         db.collection('users').doc(user.uid).collection('profile').doc(user.uid).set({
-             name:signinname.value,
-             phone:phonenumber,
-             location:signinlocation.value,
-             adharfront:adharcardf,
-             adharback:adharcardb,
-             promocode:"eligible",
-             status:"active",
-             altnumber:altnumber.value,
-             profession:profession.value,
-             otherid:otheridlink,
-             profilepic:profilelink
-         }).then(function(){ 
-          document.querySelector('.back-layer').style.display="none";
-          return db.collection('users').doc(user.uid).set({dummy:'this is because to view this doc in control panel'})
-      
-          })
-          .catch(function(err){
-              console.log(err)
-          })
-        } else {
+         const signinname=document.querySelector('.signinname');
+         const altnumber=document.querySelector('#altphone');
+         const profession=document.querySelector('.signinprofession');
+         const adharnumber=document.getElementById('adharnumber');
+     
+         let astatus=false;
+  db.collection("users").where("adharnumber", "==", adharnumber.value)
+  .get()
+  .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        astatus=true;
+      });
+  }).then(()=>{
+    const signinlocation=document.querySelector('.signinlocation')
+    if(altnumber.value==phonenumber) alert("phone number, alternative phone number must not be same")
+    if(astatus==false){
+    db.collection('users').doc(user.uid).collection('profile').doc(user.uid).set({
+        name:signinname.value,
+        phone:phonenumber,
+        location:signinlocation.value,
+        adharfront:adharcardf,
+        adharback:adharcardb,
+        promocode:"eligible",
+        status:"active",
+        altnumber:altnumber.value,
+        profession:profession.value,
+        otherid:otheridlink,
+        profilepic:profilelink,
+        adharnumber:adharnumber.value,
+        timestamp:firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){ 
+      astatus=true;
+     document.querySelector('.back-layer').style.display="none";
+     return db.collection('users').doc(user.uid).set({adharnumber:adharnumber.value,
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
+    })
+ 
+     })
+     .catch(function(err){
+         console.log(err)
+     })
+   }
+   else alert(`Already account created with this adharcard ${adharnumber.value} please do register with new adharcard`)
+   
+  })
+        }
+ 
+        else {
          console.log("user not login")
         }
       })
@@ -378,11 +407,11 @@ function advancedsearch(productid){
              console.log('your product details',pan.data())
              db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').doc(pan.id).set({
               name:pan.data().name,
-              price:pan.data().price,
+              price:Number(pan.data().price),
               qty:1,
               link:pan.data().link,
               productid:pan.id,
-              qtylimit:pan.data().qty
+              qtylimit:Number(pan.data().qty)
             })
            }
          })
@@ -618,7 +647,8 @@ db.collection('users').doc(firebase.auth().currentUser.uid).collection('cart').o
       servername:servername.value,
       servernumber:servernumber.value,
       date:new Date().toDateString(),
-      time:new Date().toTimeString()
+      time:new Date().toTimeString(),
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
     }).then(()=>{
 
       servicepicp.value=0;
